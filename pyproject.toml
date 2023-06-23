@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "nonebot_plugin_userinfo"
+version = "0.0.1"
+description = "Nonebot2 用户信息获取插件"
+authors = ["meetwq <meetwq@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/noneplugin/nonebot-plugin-userinfo"
+repository = "https://github.com/noneplugin/nonebot-plugin-userinfo"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+nonebot2 = { version = "^2.0.0", extras = ["fastapi"] }
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.8.0"
+
+[tool.poetry.group.test.dependencies]
+pytest-cov = "^4.0.0"
+pytest-asyncio = "^0.20.0"
+nonebug = "^0.3.0"
+
+[tool.poetry.group.adapters]
+optional = true
+
+[tool.poetry.group.adapters.dependencies]
+nonebot-adapter-onebot = "^2.2.2"
+nonebot-adapter-console = "^0.3.2"
+nonebot-adapter-qqguild = "^0.2.1"
+nonebot-adapter-kaiheila = { version = "^0.2.4", python = ">=3.9" }
+nonebot-adapter-telegram = "^0.1.0b13"
+
+[tool.nonebot]
+plugins = ["nonebot_plugin_session"]
+adapters = [
+  { name = "Console", module_name = "nonebot.adapters.console" },
+  { name = "OneBot V11", module_name = "nonebot.adapters.onebot.v11" },
+  { name = "OneBot V12", module_name = "nonebot.adapters.onebot.v12" },
+  { name = "Kaiheila", module_name = "nonebot.adapters.kaiheila" },
+  { name = "QQ Guild", module_name = "nonebot.adapters.qqguild" },
+  { name = "Telegram", module_name = "nonebot.adapters.telegram" },
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
