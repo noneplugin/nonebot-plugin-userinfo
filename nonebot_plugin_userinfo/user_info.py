@@ -4,7 +4,9 @@ from typing import Optional, Union
 
 from pydantic import BaseModel
 
-ImageData = Union[str, bytes, Path, BytesIO]
+from .image_source import ImageSource
+
+ImageData = Union[str, bytes, Path, BytesIO, ImageSource]
 
 
 class UserInfo(BaseModel):
