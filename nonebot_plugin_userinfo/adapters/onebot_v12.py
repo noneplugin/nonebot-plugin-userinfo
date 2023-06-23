@@ -73,14 +73,12 @@ try:
                 user_name = info["user_name"]
                 user_displayname = info["user_displayname"]
                 user_remark = info.get("user_remark")
-                gender = "unknown"
                 return UserInfo(
                     user_id=user_id,
                     user_name=user_name,
                     user_displayname=user_displayname,
                     user_remark=user_remark,
                     user_avatar=avatar,
-                    user_gender=gender,
                 )
 
 except ImportError:
