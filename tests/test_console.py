@@ -1,11 +1,9 @@
 from datetime import datetime
 
-import pytest
-from nonebot.adapters.console import Bot, Message, MessageEvent, Robot, User
+from nonebot.adapters.console import Bot, Message, MessageEvent, User
 from nonebug import App
 
 
-@pytest.mark.asyncio
 async def test_user_info(app: App):
     from nonebot_plugin_userinfo import Emoji, UserInfo
     from tests.plugins.echo import user_info_cmd
@@ -32,7 +30,6 @@ async def test_user_info(app: App):
         ctx.should_call_send(event, "", True, user_info=user_info)
 
 
-@pytest.mark.asyncio
 async def test_user_info_depends(app: App):
     from nonebot_plugin_userinfo import Emoji, UserInfo
     from tests.plugins.echo import user_info_depends_cmd
@@ -59,7 +56,6 @@ async def test_user_info_depends(app: App):
         ctx.should_call_send(event, "", True, user_info=user_info)
 
 
-@pytest.mark.asyncio
 async def test_bot_user_info(app: App):
     from nonebot_plugin_userinfo import Emoji, UserInfo
     from tests.plugins.echo import bot_user_info_cmd
