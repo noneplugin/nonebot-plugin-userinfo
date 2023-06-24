@@ -16,3 +16,6 @@ class UserInfo(BaseModel):
     user_remark: Optional[str] = None
     user_avatar: Optional[ImageData] = None
     user_gender: str = "unknown"
+
+    class Config:
+        arbitrary_types_allowed = True

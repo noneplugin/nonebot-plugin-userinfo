@@ -1,11 +1,8 @@
 from typing import Generic, List, NamedTuple, Optional, Type, TypeVar
 
 from cachetools import TTLCache
-from nonebot import require
 from nonebot.adapters import Bot, Event
 from nonebot.params import Depends
-
-require("nonebot_plugin_session")
 from nonebot_plugin_session import SessionIdType, extract_session
 
 from .user_info import UserInfo
