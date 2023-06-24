@@ -126,7 +126,7 @@ async def test_channel_message_event(app: App):
         user_gender="unknown",
     )
 
-    # TODO
+    # TODO: qqguild all4one 相关测试
     # async with app.test_matcher(user_info_cmd) as ctx:
     #     bot = ctx.create_bot(
     #         base=Bot, self_id="2233", impl="nonebot-plugin-all4one", platform="qqguild"
@@ -175,8 +175,8 @@ async def test_bot_user_info(app: App):
         bot = ctx.create_bot(base=Bot, self_id="2233", impl="walle-q", platform="qq")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
-            "get_user_info",
-            {"user_id": "2233"},
+            "get_self_info",
+            {},
             {
                 "user_id": "2233",
                 "user_name": "Bot",
