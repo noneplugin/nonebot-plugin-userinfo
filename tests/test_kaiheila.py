@@ -78,12 +78,12 @@ async def test_private_message_event(app: App):
         ctx.should_call_api(
             "user_view",
             {"user_id": "3344"},
-            {
-                "id": "3344",
-                "username": "MyUser",
-                "avatar": "https://img.kookapp.cn/avatars/2020-02/xxxx.jpg/icon",
-                "nickname": "MyNickName",
-            },
+            User(
+                id="3344",
+                username="MyUser",
+                avatar="https://img.kookapp.cn/avatars/2020-02/xxxx.jpg/icon",
+                nickname="MyNickName",
+            ),
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
 
@@ -154,12 +154,12 @@ async def test_channel_message_event(app: App):
         ctx.should_call_api(
             "user_view",
             {"guild_id": "5566", "user_id": "3344"},
-            {
-                "id": "3344",
-                "username": "MyUser",
-                "avatar": "https://img.kookapp.cn/avatars/2020-02/xxxx.jpg/icon",
-                "nickname": "MyNickName",
-            },
+            User(
+                id="3344",
+                username="MyUser",
+                avatar="https://img.kookapp.cn/avatars/2020-02/xxxx.jpg/icon",
+                nickname="MyNickName",
+            ),
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
 
@@ -227,13 +227,13 @@ async def test_bot_user_info(app: App):
         bot = ctx.create_bot(base=Bot, self_id="2233", name="Bot", token="")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
-            "user_view",
-            {"user_id": "2233"},
-            {
-                "id": "2233",
-                "username": "Bot",
-                "avatar": "https://img.kookapp.cn/avatars/2020-02/xxxx.jpg/icon",
-                "nickname": "NickName",
-            },
+            "user_me",
+            {},
+            User(
+                id="2233",
+                username="Bot",
+                avatar="https://img.kookapp.cn/avatars/2020-02/xxxx.jpg/icon",
+                nickname="NickName",
+            ),
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
