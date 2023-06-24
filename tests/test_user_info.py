@@ -1,20 +1,20 @@
 from datetime import datetime
 
 import pytest
-from nonebot.adapters.console import Bot, Message, MessageEvent, User
+from nonebot.adapters.console import Bot, Message, MessageEvent, Robot, User
 from nonebug import App
 
 
 @pytest.mark.asyncio
 async def test_user_info(app: App):
-    from nonebot_plugin_userinfo import UserInfo
-    from tests.plugins.echo import user_info_cmd, user_info_depends_cmd
+    from nonebot_plugin_userinfo import Emoji, UserInfo
+    from tests.plugins.echo import user_info_cmd
 
     event = MessageEvent(
         time=datetime.now(),
         self_id="test",
         message=Message("/user_info"),
-        user=User(id="123456789", nickname="MyUser"),
+        user=User(id="123456789", avatar="🤗", nickname="MyUser"),
     )
 
     user_info = UserInfo(
@@ -22,7 +22,7 @@ async def test_user_info(app: App):
         user_name="MyUser",
         user_displayname=None,
         user_remark=None,
-        user_avatar=None,
+        user_avatar=Emoji(data="🤗"),
         user_gender="unknown",
     )
 
@@ -34,14 +34,14 @@ async def test_user_info(app: App):
 
 @pytest.mark.asyncio
 async def test_user_info_depends(app: App):
-    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo import Emoji, UserInfo
     from tests.plugins.echo import user_info_depends_cmd
 
     event = MessageEvent(
         time=datetime.now(),
         self_id="test",
         message=Message("/user_info_depends"),
-        user=User(id="123456789", nickname="MyUser"),
+        user=User(id="123456789", avatar="🤗", nickname="MyUser"),
     )
 
     user_info = UserInfo(
@@ -49,7 +49,7 @@ async def test_user_info_depends(app: App):
         user_name="MyUser",
         user_displayname=None,
         user_remark=None,
-        user_avatar=None,
+        user_avatar=Emoji(data="🤗"),
         user_gender="unknown",
     )
 
@@ -61,14 +61,14 @@ async def test_user_info_depends(app: App):
 
 @pytest.mark.asyncio
 async def test_bot_user_info(app: App):
-    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo import Emoji, UserInfo
     from tests.plugins.echo import bot_user_info_cmd
 
     event = MessageEvent(
         time=datetime.now(),
         self_id="test",
         message=Message("/bot_user_info"),
-        user=User(id="123456789", nickname="MyUser"),
+        user=User(id="123456789", avatar="🤗", nickname="MyUser"),
     )
 
     user_info = UserInfo(
@@ -76,7 +76,7 @@ async def test_bot_user_info(app: App):
         user_name="Bot",
         user_displayname=None,
         user_remark=None,
-        user_avatar=None,
+        user_avatar=Emoji(data="🤖"),
         user_gender="unknown",
     )
 

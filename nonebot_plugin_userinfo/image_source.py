@@ -1,15 +1,57 @@
 import hashlib
-from dataclasses import dataclass
+
+import emoji
+from pydantic import BaseModel, validator
+from strenum import StrEnum
 
 from .utils import download_url
 
 
-class ImageSource:
+class ImageSource(BaseModel):
     async def get_image(self) -> bytes:
         raise NotImplementedError
 
 
-@dataclass
+class ImageUrl(ImageSource):
+    url: str
+
+    async def get_image(self) -> bytes:
+        return await download_url(self.url)
+
+
+class EmojiStyle(StrEnum):
+    Apple = "apple"
+    Google = "google"
+    Microsoft = "microsoft"
+    Samsung = "samsung"
+    WhatsApp = "whatsapp"
+    Twitter = "twitter"
+    Facebook = "facebook"
+    Messenger = "messenger"
+    JoyPixels = "joypixels"
+    OpenMoji = "openmoji"
+    EmojiDex = "emojidex"
+    LG = "lg"
+    HTC = "htc"
+    Mozilla = "mozilla"
+
+
+class Emoji(ImageSource):
+    data: str
+
+    @validator("data")
+    def check_emoji(cls, value: str) -> str:
+        if not emoji.is_emoji(value):
+            raise ValueError("Not a emoji")
+        return value
+
+    def get_url(self, style: EmojiStyle = EmojiStyle.Apple) -> str:
+        return f"https://emojicdn.elk.sh/{self.data}?style={style}"
+
+    async def get_image(self, style: EmojiStyle = EmojiStyle.Apple) -> bytes:
+        return await download_url(self.get_url(style))
+
+
 class QQAvatar(ImageSource):
     qq: int
 

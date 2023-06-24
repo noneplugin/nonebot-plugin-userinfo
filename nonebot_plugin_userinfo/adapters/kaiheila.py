@@ -5,6 +5,7 @@ from nonebot.log import logger
 from nonebot_plugin_session import SessionLevel
 
 from ..getter import UserInfoGetter, register_user_info_getter
+from ..image_source import ImageUrl
 from ..user_info import UserInfo
 
 try:
@@ -33,10 +34,12 @@ try:
                     pass
 
             if user:
+                url = user.vip_avatar or user.avatar
+                avatar = ImageUrl(url=url) if url else None
                 return UserInfo(
                     user_id=user_id,
                     user_name=user.nickname or "",
-                    user_avatar=user.vip_avatar or user.avatar,
+                    user_avatar=avatar,
                 )
 
 except ImportError:

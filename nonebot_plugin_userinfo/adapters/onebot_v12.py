@@ -5,7 +5,7 @@ from nonebot.log import logger
 from nonebot_plugin_session import SessionLevel
 
 from ..getter import UserInfoGetter, register_user_info_getter
-from ..image_source import QQAvatar
+from ..image_source import ImageUrl, QQAvatar
 from ..user_info import UserInfo
 
 try:
@@ -50,9 +50,13 @@ try:
                         event_dict = self.event.dict()
                         try:
                             if user_id == str(event_dict["qqguild"]["author"]["id"]):
-                                avatar = str(event_dict["qqguild"]["author"]["avatar"])
+                                avatar = ImageUrl(
+                                    url=str(event_dict["qqguild"]["author"]["avatar"])
+                                )
                                 if not avatar and info:
-                                    avatar = str(info["qqguild"]["user"]["avatar"])  # type: ignore
+                                    avatar = ImageUrl(
+                                        url=str(info["qqguild"]["user"]["avatar"])  # type: ignore
+                                    )
                         except KeyError:
                             pass
 

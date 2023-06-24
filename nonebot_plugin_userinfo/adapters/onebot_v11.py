@@ -41,7 +41,7 @@ try:
                     user_id=user_id,
                     user_name=name,
                     user_displayname=card,
-                    user_avatar=QQAvatar(int(user_id)),
+                    user_avatar=QQAvatar(qq=int(user_id)),
                     user_gender=gender,
                 )
 
