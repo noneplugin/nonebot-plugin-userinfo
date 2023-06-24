@@ -7,6 +7,7 @@ from nonebug import App
 
 @pytest.mark.asyncio
 async def test_get_plugin(app: App):
+    from nonebot_plugin_userinfo import UserInfo
     from tests.plugins.echo import user_info_cmd
 
     event = MessageEvent(
@@ -16,7 +17,16 @@ async def test_get_plugin(app: App):
         user=User(id="123456789"),
     )
 
+    user_info = UserInfo(
+        user_id="User",
+        user_name="User",
+        user_displayname=None,
+        user_remark=None,
+        user_avatar=None,
+        user_gender="unknown",
+    )
+
     async with app.test_matcher(user_info_cmd) as ctx:
         bot = ctx.create_bot(base=Bot)
         ctx.receive_event(bot, event)
-        ctx.should_call_send(event, "", True, user_info=None)
+        ctx.should_call_send(event, "", True, user_info=user_info)
