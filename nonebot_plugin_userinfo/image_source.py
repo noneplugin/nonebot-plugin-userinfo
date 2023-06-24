@@ -62,3 +62,15 @@ class QQAvatar(ImageSource):
             url = f"http://q1.qlogo.cn/g?b=qq&nk={self.qq}&s=100"
             data = await download_url(url)
         return data
+
+
+class TelegramFile(ImageSource):
+    token: str
+    file_path: str
+    api_server: str = "https://api.telegram.org/"
+
+    def get_url(self) -> str:
+        return f"{self.api_server}file/bot{self.token}/{self.file_path}"
+
+    async def get_image(self) -> bytes:
+        return await download_url(self.get_url())
