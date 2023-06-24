@@ -462,6 +462,19 @@ wrapt = ">=1.10,<2"
 dev = ["PyTest", "PyTest-Cov", "bump2version (<1)", "sphinx (<2)", "tox"]
 
 [[package]]
+name = "emoji"
+version = "2.5.1"
+description = "Emoji for Python"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+files = [
+    {file = "emoji-2.5.1.tar.gz", hash = "sha256:8e5ec80f56dd1fe38f4c4847b9ea6f18d4ad94d0b8dd135b0b2355ddf56d6d62"},
+]
+
+[package.extras]
+dev = ["coverage", "coveralls", "pytest"]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.1.1"
 description = "Backport of PEP 654 (exception groups)"
@@ -1878,4 +1891,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "550240995ff4e2e6157e406bf62b03f6a8d2fb362a4b9dd80884bb2c6554b331"
+content-hash = "0528def09f4f75804be55233198dae70af15e8733dcb826d3fa771db15fb7386"
