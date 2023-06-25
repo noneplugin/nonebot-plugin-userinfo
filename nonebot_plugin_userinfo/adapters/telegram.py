@@ -56,12 +56,22 @@ try:
 
             if user:
                 avatar = None
-                profile_photos = await self.bot.get_user_profile_photos(
-                    user_id=user.id, limit=1
-                )
+                try:
+                    profile_photos = await self.bot.get_user_profile_photos(
+                        user_id=user.id, limit=1
+                    )
+                except ActionFailed as e:
+                    logger.warning(f"Error calling get_user_profile_photos: {e}")
+                    profile_photos = None
+
                 if profile_photos and profile_photos.total_count > 0:
                     file_id = profile_photos.photos[0][-1].file_id
-                    file = await self.bot.get_file(file_id=file_id)
+                    try:
+                        file = await self.bot.get_file(file_id=file_id)
+                    except ActionFailed as e:
+                        logger.warning(f"Error calling get_file: {e}")
+                        file = None
+
                     if file and file.file_path:
                         config = self.bot.bot_config
                         avatar = TelegramFile(
