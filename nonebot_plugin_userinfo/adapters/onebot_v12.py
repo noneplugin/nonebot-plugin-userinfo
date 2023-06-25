@@ -79,7 +79,7 @@ try:
                     if url is None:
                         try:
                             # TODO: 这里的 qqguild 扩展字段是否是嵌套的？
-                            url = str(info["qqguild"]["user"]["avatar"])  # type: ignore
+                            url = str(info["qqguild.user"]["avatar"])  # type: ignore
                         except KeyError:
                             pass
                     if url:
