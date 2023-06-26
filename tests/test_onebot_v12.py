@@ -182,10 +182,12 @@ async def test_channel_message_event_all4one(app: App):
                 "user_id": "3344",
                 "user_name": "MyUser",
                 "user_displayname": "MyDisplayName",
-                "qqguild.user": {
-                    "id": "3344",
-                    "username": "MyUser",
-                    "avatar": "http://xxx.jpg",
+                "qqguild": {
+                    "user": {
+                        "id": "3344",
+                        "username": "MyUser",
+                        "avatar": "http://xxx.jpg",
+                    }
                 },
                 "qqguild.roles": [],
                 "qqguild.joined_at": None,
