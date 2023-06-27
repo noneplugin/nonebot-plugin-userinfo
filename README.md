@@ -22,6 +22,17 @@ _✨ [Nonebot2](https://github.com/nonebot/nonebot2) 用户信息获取插件 �
 
 多平台的用户信息获取插件，可以获取用户名、用户头像等信息
 
+可以获取的信息：
+
+| 字段 | 类型 | 说明 | 默认值 | 备注 |
+| --- | --- | --- | --- | --- |
+| user_id | `str` | 用户 id | | |
+| user_name | `str` | 用户名 | | |
+| user_displayname | `Optional[str]` | 用户昵称 | `None` | |
+| user_remark | `Optional[str]` | 用户备注 | `None` | |
+| user_avatar | `Optional[ImageSource]` | 用户头像 | `None` | [ImageSource](https://github.com/noneplugin/nonebot-plugin-userinfo/blob/main/nonebot_plugin_userinfo/image_source.py) 可通过 `get_image` 获取 `bytes` 结果 |
+| user_gender | `str` | 用户性别 | `"unknown"` | |
+
 
 ### 安装
 
@@ -69,7 +80,9 @@ async def handle(user_info: UserInfo = BotUserInfo()):  # 获取Bot用户信息
 
 ### 支持的 adapter
 
-- [ ] TODO
+| OneBot v11 | OneBot v12 | Console | Kaiheila | QQ Guild | Telegram |
+| :--------: | :--------: | :------: | :------: | :------: | :------: |
+|     ✅     |     ✅     |    ✅    |    ✅    |    ✅    |    ✅    |
 
 
 ### 鸣谢
