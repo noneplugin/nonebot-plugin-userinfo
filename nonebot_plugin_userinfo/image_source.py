@@ -1,5 +1,7 @@
 import hashlib
+from pathlib import Path
 
+import anyio
 import emoji
 from pydantic import BaseModel, validator
 from strenum import StrEnum
@@ -73,4 +75,6 @@ class TelegramFile(ImageSource):
         return f"{self.api_server}file/bot{self.token}/{self.file_path}"
 
     async def get_image(self) -> bytes:
+        if Path(self.file_path).exists():
+            return await anyio.Path(self.file_path).read_bytes()
         return await download_url(self.get_url())
