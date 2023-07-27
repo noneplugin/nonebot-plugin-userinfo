@@ -10,20 +10,12 @@ try:
     @register_user_info_getter(Bot, Event)
     class Getter(UserInfoGetter[Bot, Event]):
         async def _get_info(self, user_id: str) -> Optional[UserInfo]:
-            if user_id in [self.event.user.id, self.event.user.nickname]:
-                user = self.event.user
+            user = self.event.user
+            if user_id in [user.id, user.nickname]:
                 return UserInfo(
                     user_id=user_id,
                     user_name=user.nickname,
                     user_avatar=Emoji(data=user.avatar),
-                )
-
-            if user_id in [self.bot.info.id, self.bot.info.nickname]:
-                info = self.bot.info
-                return UserInfo(
-                    user_id=user_id,
-                    user_name=info.nickname,
-                    user_avatar=Emoji(data=info.avatar),
                 )
 
 except ImportError:
