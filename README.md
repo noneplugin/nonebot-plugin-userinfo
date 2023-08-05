@@ -1,7 +1,7 @@
 <div align="center">
 
-  <a href="https://v2.nonebot.dev/">
-    <img src="https://v2.nonebot.dev/logo.png" width="200" height="200" alt="nonebot">
+  <a href="https://nonebot.dev/">
+    <img src="https://nonebot.dev/logo.png" width="200" height="200" alt="nonebot">
   </a>
 
 # nonebot-plugin-userinfo
