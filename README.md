@@ -80,9 +80,9 @@ async def handle(user_info: UserInfo = BotUserInfo()):  # 获取Bot用户信息
 
 ### 支持的 adapter
 
-| OneBot v11 | OneBot v12 | Console | Kaiheila | QQ Guild | Telegram |
-| :--------: | :--------: | :------: | :------: | :------: | :------: |
-|     ✅     |     ✅     |    ✅    |    ✅    |    ✅    |    ✅    |
+| OneBot v11 | OneBot v12 | Console | Kaiheila | QQ Guild | Telegram | Feishu |
+| :--------: | :--------: | :-----: | :------: | :------: | :------: | :----: |
+|     ✅    |     ✅     |    ✅   |    ✅   |    ✅   |    ✅    |  ✅   |
 
 
 ### 鸣谢
