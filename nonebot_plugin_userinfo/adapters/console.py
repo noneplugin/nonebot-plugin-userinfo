@@ -13,7 +13,7 @@ try:
             user = self.event.user
             if user_id in [user.id, user.nickname]:
                 return UserInfo(
-                    user_id=user_id,
+                    user_id=user.nickname,
                     user_name=user.nickname,
                     user_avatar=Emoji(data=user.avatar),
                 )

@@ -60,6 +60,7 @@ try:
                         pass
 
             if info:
+                user_id = info["user_id"]
                 avatar = None
 
                 platform = self.bot.platform
@@ -84,14 +85,11 @@ try:
                     if url:
                         avatar = ImageUrl(url=url)
 
-                user_name = info["user_name"]
-                user_displayname = info["user_displayname"]
-                user_remark = info.get("user_remark")
                 return UserInfo(
                     user_id=user_id,
-                    user_name=user_name,
-                    user_displayname=user_displayname,
-                    user_remark=user_remark,
+                    user_name=info["user_name"],
+                    user_displayname=info["user_displayname"],
+                    user_remark=info.get("user_remark"),
                     user_avatar=avatar,
                 )
 

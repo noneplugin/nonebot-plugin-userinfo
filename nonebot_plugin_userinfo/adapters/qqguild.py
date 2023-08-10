@@ -46,7 +46,7 @@ try:
 
             if user:
                 return UserInfo(
-                    user_id=user_id,
+                    user_id=str(user.id) if user.id else user_id,
                     user_name=user.username or "",
                     user_displayname=member.nick if member else None,
                     user_avatar=ImageUrl(url=user.avatar) if user.avatar else None,

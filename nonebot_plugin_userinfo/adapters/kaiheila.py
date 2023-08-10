@@ -44,7 +44,7 @@ try:
                 url = user.vip_avatar or user.avatar
                 avatar = ImageUrl(url=url) if url else None
                 return UserInfo(
-                    user_id=user_id,
+                    user_id=user.id_ or user_id,
                     user_name=user.username or "",
                     user_displayname=user.nickname,
                     user_avatar=avatar,

@@ -34,15 +34,13 @@ try:
                     pass
 
             if info:
-                name = info.get("nickname", "")
-                card = info.get("card")
-                gender = info.get("sex", "unknown")
+                qq = info["user_id"]
                 return UserInfo(
-                    user_id=user_id,
-                    user_name=name,
-                    user_displayname=card,
-                    user_avatar=QQAvatar(qq=int(user_id)),
-                    user_gender=gender,
+                    user_id=str(qq),
+                    user_name=info.get("nickname", ""),
+                    user_displayname=info.get("card"),
+                    user_avatar=QQAvatar(qq=qq),
+                    user_gender=info.get("sex", "unknown"),
                 )
 
 except ImportError:
