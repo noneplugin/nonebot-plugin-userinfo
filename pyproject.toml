@@ -11,7 +11,7 @@ repository = "https://github.com/noneplugin/nonebot-plugin-userinfo"
 [tool.poetry.dependencies]
 python = "^3.8"
 nonebot2 = { version = "^2.0.0", extras = ["fastapi"] }
-nonebot-plugin-session = "^0.1.0"
+nonebot-plugin-session = { git = "https://github.com/noneplugin/nonebot-plugin-session.git", branch = "dev" }
 httpx = ">=0.20.0,<1.0.0"
 cachetools = "^5.0.0"
 emoji = "^2.0.0"
@@ -28,11 +28,11 @@ nonebug = "^0.3.0"
 optional = true
 
 [tool.poetry.group.adapters.dependencies]
-nonebot-adapter-onebot = "^2.2.2"
+nonebot-adapter-onebot = "^2.2.4"
 nonebot-adapter-console = "^0.4.0"
-nonebot-adapter-qqguild = "^0.2.1"
-nonebot-adapter-kaiheila = { version = "^0.2.4", python = ">=3.9" }
-nonebot-adapter-telegram = "^0.1.0b13"
+nonebot-adapter-qqguild = "^0.2.5"
+nonebot-adapter-kaiheila = "^0.2.12"
+nonebot-adapter-telegram = "^0.1.0b14"
 nonebot-adapter-feishu = "^2.0.1"
 
 [tool.nonebot]
