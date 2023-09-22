@@ -47,11 +47,9 @@ class Emoji(ImageSource):
             raise ValueError("Not a emoji")
         return value
 
-    def get_url(self, style: EmojiStyle = EmojiStyle.Apple) -> str:
-        return f"https://emojicdn.elk.sh/{self.data}?style={style}"
-
     async def get_image(self, style: EmojiStyle = EmojiStyle.Apple) -> bytes:
-        return await download_url(self.get_url(style))
+        url = f"https://emojicdn.elk.sh/{self.data}?style={style}"
+        return await download_url(url)
 
 
 class QQAvatar(ImageSource):
@@ -69,15 +67,12 @@ class QQAvatar(ImageSource):
 class TelegramFile(ImageSource):
     token: str
     file_path: str
-    api_server: str = "https://api.telegram.org/"
 
-    def get_url(self) -> str:
-        return f"{self.api_server}file/bot{self.token}/{self.file_path}"
-
-    async def get_image(self) -> bytes:
+    async def get_image(self, api_server: str = "https://api.telegram.org/") -> bytes:
         if Path(self.file_path).exists():
             return await anyio.Path(self.file_path).read_bytes()
-        return await download_url(self.get_url())
+        url = f"{api_server}file/bot{self.token}/{self.file_path}"
+        return await download_url(url)
 
 
 class DiscordImageFormat(StrEnum):
@@ -93,12 +88,12 @@ class DiscordUserAvatar(ImageSource):
 
     user_id: int
     image_hash: str
-    base_url: str = "https://cdn.discordapp.com/"
-    image_format: DiscordImageFormat = DiscordImageFormat.PNG
-    image_size: int = 1024
 
-    def get_url(self) -> str:
-        return f"{self.base_url}avatars/{self.user_id}/{self.image_hash}.{self.image_format}?size={self.image_size}"
-
-    async def get_image(self) -> bytes:
-        return await download_url(self.get_url())
+    async def get_image(
+        self,
+        base_url: str = "https://cdn.discordapp.com/",
+        image_format: DiscordImageFormat = DiscordImageFormat.PNG,
+        image_size: int = 1024,
+    ) -> bytes:
+        url = f"{base_url}avatars/{self.user_id}/{self.image_hash}.{image_format}?size={image_size}"
+        return await download_url(url)

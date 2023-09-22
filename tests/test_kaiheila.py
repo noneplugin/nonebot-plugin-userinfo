@@ -1,7 +1,3 @@
-import pytest
-
-pytest.importorskip("nonebot.adapters.kaiheila")
-
 from nonebot.adapters.kaiheila import Bot, Message
 from nonebot.adapters.kaiheila.event import (
     ChannelMessageEvent,
@@ -14,7 +10,8 @@ from nonebug.app import App
 
 
 async def test_private_message_event(app: App):
-    from nonebot_plugin_userinfo import ImageUrl, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import ImageUrl
     from tests.plugins.echo import user_info_cmd
 
     event = PrivateMessageEvent(
@@ -89,7 +86,8 @@ async def test_private_message_event(app: App):
 
 
 async def test_channel_message_event(app: App):
-    from nonebot_plugin_userinfo import ImageUrl, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import ImageUrl
     from tests.plugins.echo import user_info_cmd
 
     event = ChannelMessageEvent(
@@ -165,7 +163,8 @@ async def test_channel_message_event(app: App):
 
 
 async def test_bot_user_info(app: App):
-    from nonebot_plugin_userinfo import ImageUrl, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import ImageUrl
     from tests.plugins.echo import bot_user_info_cmd
 
     event = PrivateMessageEvent(

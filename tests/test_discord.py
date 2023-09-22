@@ -10,7 +10,8 @@ from nonebug.app import App
 
 
 async def test_guild_message_create_event(app: App):
-    from nonebot_plugin_userinfo import DiscordUserAvatar, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import DiscordUserAvatar
     from tests.plugins.echo import user_info_cmd
 
     event = GuildMessageCreateEvent.parse_obj(
@@ -60,7 +61,8 @@ async def test_guild_message_create_event(app: App):
 
 
 async def test_direct_message_create_event(app: App):
-    from nonebot_plugin_userinfo import DiscordUserAvatar, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import DiscordUserAvatar
     from tests.plugins.echo import user_info_cmd
 
     event = DirectMessageCreateEvent.parse_obj(
@@ -109,7 +111,8 @@ async def test_direct_message_create_event(app: App):
 
 
 async def test_bot_user_info(app: App):
-    from nonebot_plugin_userinfo import DiscordUserAvatar, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import DiscordUserAvatar
     from tests.plugins.echo import bot_user_info_cmd
 
     event = GuildMessageCreateEvent.parse_obj(

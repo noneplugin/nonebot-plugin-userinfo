@@ -6,7 +6,8 @@ from nonechat.info import User
 
 
 async def test_user_info(app: App):
-    from nonebot_plugin_userinfo import Emoji, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import Emoji
     from tests.plugins.echo import user_info_cmd
 
     event = MessageEvent(
@@ -32,7 +33,8 @@ async def test_user_info(app: App):
 
 
 async def test_user_info_depends(app: App):
-    from nonebot_plugin_userinfo import Emoji, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import Emoji
     from tests.plugins.echo import user_info_depends_cmd
 
     event = MessageEvent(

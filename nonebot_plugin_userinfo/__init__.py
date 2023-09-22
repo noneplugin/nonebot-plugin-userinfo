@@ -5,14 +5,7 @@ require("nonebot_plugin_session")
 
 from . import adapters
 from .getter import BotUserInfo, EventUserInfo, get_user_info
-from .image_source import (
-    DiscordUserAvatar,
-    Emoji,
-    ImageSource,
-    ImageUrl,
-    QQAvatar,
-    TelegramFile,
-)
+from .image_source import ImageSource
 from .user_info import UserInfo
 
 __plugin_meta__ = PluginMetadata(
