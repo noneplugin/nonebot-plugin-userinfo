@@ -1,7 +1,13 @@
-from nonebot.adapters.red import Bot
+from nonebot.adapters.red import Bot, Message
+from nonebot.adapters.red.api.model import (
+    ChatType,
+    Element,
+    MsgType,
+    RoleInfo,
+    TextElement,
+)
 from nonebot.adapters.red.config import BotInfo
 from nonebot.adapters.red.event import GroupMessageEvent, PrivateMessageEvent
-from nonebot.adapters.red.model import Element, RoleInfo, TextElement
 from nonebug import App
 
 
@@ -56,8 +62,8 @@ async def test_group_message_event(app: App):
         msgRandom="1526531828",
         msgSeq="831",
         cntSeq="0",
-        chatType=2,
-        msgType=2,
+        chatType=ChatType.GROUP,
+        msgType=MsgType.normal,
         subMsgType=1,
         sendType=0,
         senderUid="4321",
@@ -77,6 +83,8 @@ async def test_group_message_event(app: App):
         guildName="",
         channelName="",
         elements=[text_element("/user_info")],
+        message=Message("/user_info"),
+        original_message=Message("/user_info"),
         records=[],
         emojiLikesList=[],
         commentCnt="0",
@@ -129,8 +137,8 @@ async def test_bot_user_info(app: App):
         msgRandom="196942265",
         msgSeq="103",
         cntSeq="0",
-        chatType=1,
-        msgType=2,
+        chatType=ChatType.FRIEND,
+        msgType=MsgType.normal,
         subMsgType=1,
         sendType=0,
         senderUid="4321",
@@ -150,6 +158,8 @@ async def test_bot_user_info(app: App):
         guildName="",
         channelName="",
         elements=[text_element("/bot_user_info")],
+        message=Message("/user_info"),
+        original_message=Message("/user_info"),
         records=[],
         emojiLikesList=[],
         commentCnt="0",
