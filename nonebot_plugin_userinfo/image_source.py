@@ -78,3 +78,27 @@ class TelegramFile(ImageSource):
         if Path(self.file_path).exists():
             return await anyio.Path(self.file_path).read_bytes()
         return await download_url(self.get_url())
+
+
+class DiscordImageFormat(StrEnum):
+    JPEG = "jpeg"
+    PNG = "png"
+    WebP = "webp"
+    GIF = "gif"
+    Lottie = "json"
+
+
+class DiscordUserAvatar(ImageSource):
+    # https://discord.com/developers/docs/reference#image-formatting
+
+    user_id: int
+    image_hash: str
+    base_url: str = "https://cdn.discordapp.com/"
+    image_format: DiscordImageFormat = DiscordImageFormat.PNG
+    image_size: int = 1024
+
+    def get_url(self) -> str:
+        return f"{self.base_url}avatars/{self.user_id}/{self.image_hash}.{self.image_format}?size={self.image_size}"
+
+    async def get_image(self) -> bytes:
+        return await download_url(self.get_url())

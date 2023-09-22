@@ -793,6 +793,21 @@ nonebot2 = ">=2.0.0b1,<3.0.0"
 nonechat = ">=0.2.0,<1.0.0"
 
 [[package]]
+name = "nonebot-adapter-discord"
+version = "0.1.0b1"
+description = "Discord adapter for nonebot2"
+category = "dev"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "nonebot_adapter_discord-0.1.0b1-py3-none-any.whl", hash = "sha256:a90e767ed3842e75eb58caa75ff603e8c883be9c5c265e456d07f5bef526b12b"},
+    {file = "nonebot_adapter_discord-0.1.0b1.tar.gz", hash = "sha256:eb67a260b79a5addd48fedc22f2af09abc606a3a83fa8aa226436f805c6706dd"},
+]
+
+[package.dependencies]
+nonebot2 = ">=2.0.0-beta.3,<3.0.0"
+
+[[package]]
 name = "nonebot-adapter-feishu"
 version = "2.0.2"
 description = "feishu(larksuite) adapter for nonebot2"
@@ -1753,4 +1768,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "cd0b33839f335d0061345bac63bba09291a4905c712df4291fb327d9977206e9"
+content-hash = "4eb449e40187f323947018a418f2ad4baedba0218c4620ff211a290b74243c3a"

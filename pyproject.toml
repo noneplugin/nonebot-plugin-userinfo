@@ -35,6 +35,7 @@ nonebot-adapter-kaiheila = "^0.2.12"
 nonebot-adapter-telegram = "^0.1.0b14"
 nonebot-adapter-feishu = "^2.0.1"
 nonebot-adapter-red = "^0.4.2"
+nonebot-adapter-discord = "^0.1.0b1"
 
 [tool.nonebot]
 plugins = ["nonebot_plugin_session"]
@@ -47,6 +48,7 @@ adapters = [
   { name = "Telegram", module_name = "nonebot.adapters.telegram" },
   { name = "Feishu", module_name = "nonebot.adapters.feishu" },
   { name = "RedProtocol", module_name = "nonebot.adapters.red" },
+  { name = "Discord", module_name = "nonebot.adapters.discord" },
 ]
 
 [tool.pytest.ini_options]
