@@ -11,10 +11,10 @@ repository = "https://github.com/noneplugin/nonebot-plugin-userinfo"
 [tool.poetry.dependencies]
 python = "^3.8"
 nonebot2 = { version = "^2.0.0", extras = ["fastapi"] }
-nonebot-plugin-session = "^0.1.0"
 httpx = ">=0.20.0,<1.0.0"
 cachetools = "^5.0.0"
 emoji = "^2.0.0"
+strenum = "^0.4.8"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"
@@ -28,15 +28,17 @@ nonebug = "^0.3.0"
 optional = true
 
 [tool.poetry.group.adapters.dependencies]
-nonebot-adapter-onebot = "^2.2.2"
+nonebot-adapter-onebot = "^2.2.4"
 nonebot-adapter-console = "^0.4.0"
-nonebot-adapter-qqguild = "^0.2.1"
-nonebot-adapter-kaiheila = { version = "^0.2.4", python = ">=3.9" }
-nonebot-adapter-telegram = "^0.1.0b13"
+nonebot-adapter-qqguild = "^0.2.5"
+nonebot-adapter-kaiheila = "^0.2.12"
+nonebot-adapter-telegram = "^0.1.0b14"
 nonebot-adapter-feishu = "^2.0.1"
+nonebot-adapter-red = "^0.4.2"
+nonebot-adapter-discord = "^0.1.0b1"
 
 [tool.nonebot]
-plugins = ["nonebot_plugin_session"]
+plugins = ["nonebot_plugin_userinfo"]
 adapters = [
   { name = "Console", module_name = "nonebot.adapters.console" },
   { name = "OneBot V11", module_name = "nonebot.adapters.onebot.v11" },
@@ -45,6 +47,8 @@ adapters = [
   { name = "QQ Guild", module_name = "nonebot.adapters.qqguild" },
   { name = "Telegram", module_name = "nonebot.adapters.telegram" },
   { name = "Feishu", module_name = "nonebot.adapters.feishu" },
+  { name = "RedProtocol", module_name = "nonebot.adapters.red" },
+  { name = "Discord", module_name = "nonebot.adapters.discord" },
 ]
 
 [tool.pytest.ini_options]

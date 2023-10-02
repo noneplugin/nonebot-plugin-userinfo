@@ -3,7 +3,6 @@ from typing import Generic, List, NamedTuple, Optional, Type, TypeVar
 from cachetools import TTLCache
 from nonebot.adapters import Bot, Event
 from nonebot.params import Depends
-from nonebot_plugin_session import SessionIdType, extract_session
 
 from .user_info import UserInfo
 
@@ -17,7 +16,6 @@ class UserInfoGetter(Generic[B, E]):
     def __init__(self, bot: B, event: E):
         self.bot = bot
         self.event = event
-        self.session = extract_session(bot, event)
 
     async def _get_info(self, user_id: str) -> Optional[UserInfo]:
         raise NotImplementedError
@@ -26,7 +24,10 @@ class UserInfoGetter(Generic[B, E]):
         self, user_id: str, use_cache: bool = True
     ) -> Optional[UserInfo]:
         if use_cache:
-            session_id = self.session.get_id(SessionIdType.GROUP_USER)
+            try:
+                session_id = self.event.get_session_id()
+            except NotImplementedError:
+                session_id = ""
             id = f"{session_id}_{user_id}"
             if id in _user_info_cache:
                 return _user_info_cache[id]

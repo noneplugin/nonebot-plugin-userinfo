@@ -2,7 +2,6 @@ from typing import Optional
 
 from nonebot.exception import ActionFailed
 from nonebot.log import logger
-from nonebot_plugin_session import SessionLevel
 
 from ..getter import UserInfoGetter, register_user_info_getter
 from ..image_source import TelegramFile
@@ -10,6 +9,16 @@ from ..user_info import UserInfo
 
 try:
     from nonebot.adapters.telegram import Bot, Event
+    from nonebot.adapters.telegram.event import (
+        ChannelPostEvent,
+        EditedChannelPostEvent,
+        ForumTopicEditedMessageEvent,
+        ForumTopicMessageEvent,
+        GroupEditedMessageEvent,
+        GroupMessageEvent,
+        LeftChatMemberEvent,
+        NewChatMemberEvent,
+    )
 
     @register_user_info_getter(Bot, Event)
     class Getter(UserInfoGetter[Bot, Event]):
@@ -23,29 +32,28 @@ try:
                     logger.warning(f"Error calling get_me: {e}")
                     pass
 
-            elif self.session.level == SessionLevel.LEVEL3:
-                if self.session.id3:
-                    try:
-                        member = await self.bot.get_chat_member(
-                            chat_id=int(self.session.id3), user_id=int(user_id)
-                        )
-                        if member:
-                            user = member.user
-                    except ActionFailed as e:
-                        logger.warning(f"Error calling get_chat_member: {e}")
-                        pass
-
-            elif self.session.level == SessionLevel.LEVEL2:
-                if self.session.id2:
-                    try:
-                        member = await self.bot.get_chat_member(
-                            chat_id=int(self.session.id2), user_id=int(user_id)
-                        )
-                        if member:
-                            user = member.user
-                    except ActionFailed as e:
-                        logger.warning(f"Error calling get_chat_member: {e}")
-                        pass
+            elif isinstance(
+                self.event,
+                (
+                    ForumTopicMessageEvent,
+                    ChannelPostEvent,
+                    ForumTopicEditedMessageEvent,
+                    EditedChannelPostEvent,
+                    GroupMessageEvent,
+                    GroupEditedMessageEvent,
+                    LeftChatMemberEvent,
+                    NewChatMemberEvent,
+                ),
+            ):
+                try:
+                    member = await self.bot.get_chat_member(
+                        chat_id=self.event.chat.id, user_id=int(user_id)
+                    )
+                    if member:
+                        user = member.user
+                except ActionFailed as e:
+                    logger.warning(f"Error calling get_chat_member: {e}")
+                    pass
 
             if not user:
                 try:
@@ -75,9 +83,7 @@ try:
                     if file and file.file_path:
                         config = self.bot.bot_config
                         avatar = TelegramFile(
-                            token=config.token,
-                            file_path=file.file_path,
-                            api_server=config.api_server,
+                            token=config.token, file_path=file.file_path
                         )
 
                 return UserInfo(

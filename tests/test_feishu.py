@@ -27,7 +27,8 @@ BOT_INFO = BotInfo.parse_obj(
 
 
 async def test_private_message_event(app: App):
-    from nonebot_plugin_userinfo import ImageUrl, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import ImageUrl
     from tests.plugins.echo import user_info_cmd
 
     header = EventHeader(
@@ -102,7 +103,8 @@ async def test_private_message_event(app: App):
 
 
 async def test_group_message_event(app: App):
-    from nonebot_plugin_userinfo import ImageUrl, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import ImageUrl
     from tests.plugins.echo import user_info_cmd
 
     header = EventHeader(
@@ -177,7 +179,8 @@ async def test_group_message_event(app: App):
 
 
 async def test_bot_user_info(app: App):
-    from nonebot_plugin_userinfo import ImageUrl, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import ImageUrl
     from tests.plugins.echo import bot_user_info_cmd
 
     header = EventHeader(

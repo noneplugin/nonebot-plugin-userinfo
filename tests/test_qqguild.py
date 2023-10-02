@@ -10,7 +10,8 @@ from nonebug import App
 
 
 async def test_message_create_event(app: App):
-    from nonebot_plugin_userinfo import ImageUrl, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import ImageUrl
     from tests.plugins.echo import user_info_cmd
 
     event = MessageCreateEvent(
@@ -47,7 +48,8 @@ async def test_message_create_event(app: App):
 
 
 async def test_direct_message_create_event(app: App):
-    from nonebot_plugin_userinfo import ImageUrl, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import ImageUrl
     from tests.plugins.echo import user_info_cmd
 
     event = DirectMessageCreateEvent(
@@ -75,7 +77,8 @@ async def test_direct_message_create_event(app: App):
 
 
 async def test_bot_user_info(app: App):
-    from nonebot_plugin_userinfo import ImageUrl, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import ImageUrl
     from tests.plugins.echo import bot_user_info_cmd
 
     event = DirectMessageCreateEvent(

@@ -2,48 +2,82 @@ from typing import Optional
 
 from nonebot.exception import ActionFailed
 from nonebot.log import logger
-from nonebot_plugin_session import SessionLevel
 
 from ..getter import UserInfoGetter, register_user_info_getter
 from ..image_source import ImageUrl, QQAvatar
 from ..user_info import UserInfo
 
 try:
-    from nonebot.adapters.onebot.v12 import Bot, Event
+    from nonebot.adapters.onebot.v12 import (
+        Bot,
+        ChannelCreateEvent,
+        ChannelDeleteEvent,
+        ChannelMemberDecreaseEvent,
+        ChannelMemberIncreaseEvent,
+        ChannelMessageDeleteEvent,
+        ChannelMessageEvent,
+        Event,
+        GroupMemberDecreaseEvent,
+        GroupMemberIncreaseEvent,
+        GroupMessageDeleteEvent,
+        GroupMessageEvent,
+        GuildMemberDecreaseEvent,
+        GuildMemberIncreaseEvent,
+    )
 
     @register_user_info_getter(Bot, Event)
     class Getter(UserInfoGetter[Bot, Event]):
         async def _get_info(self, user_id: str) -> Optional[UserInfo]:
             info = None
 
-            if self.session.level == SessionLevel.LEVEL3:
-                if self.session.id3:
-                    if self.session.id2:
-                        try:
-                            info = await self.bot.get_channel_member_info(
-                                guild_id=self.session.id3,
-                                channel_id=self.session.id2,
-                                user_id=user_id,
-                            )
-                        except ActionFailed as e:
-                            logger.warning(
-                                f"Error calling get_channel_member_info: {e}"
-                            )
-                            pass
-                    else:
-                        try:
-                            info = await self.bot.get_guild_member_info(
-                                guild_id=self.session.id3, user_id=user_id
-                            )
-                        except ActionFailed as e:
-                            logger.warning(f"Error calling get_guild_member_info: {e}")
-                            pass
-
-            elif self.session.level == SessionLevel.LEVEL2:
-                if self.session.id2:
-                    info = await self.bot.get_group_member_info(
-                        group_id=self.session.id2, user_id=user_id
+            if isinstance(
+                self.event,
+                (
+                    ChannelCreateEvent,
+                    ChannelDeleteEvent,
+                    ChannelMemberDecreaseEvent,
+                    ChannelMemberIncreaseEvent,
+                    ChannelMessageDeleteEvent,
+                    ChannelMessageEvent,
+                ),
+            ):
+                try:
+                    info = await self.bot.get_channel_member_info(
+                        guild_id=self.event.guild_id,
+                        channel_id=self.event.channel_id,
+                        user_id=user_id,
                     )
+                except ActionFailed as e:
+                    logger.warning(f"Error calling get_channel_member_info: {e}")
+                    pass
+
+            elif isinstance(
+                self.event, (GuildMemberDecreaseEvent, GuildMemberIncreaseEvent)
+            ):
+                try:
+                    info = await self.bot.get_guild_member_info(
+                        guild_id=self.event.guild_id, user_id=user_id
+                    )
+                except ActionFailed as e:
+                    logger.warning(f"Error calling get_guild_member_info: {e}")
+                    pass
+
+            elif isinstance(
+                self.event,
+                (
+                    GroupMemberDecreaseEvent,
+                    GroupMemberIncreaseEvent,
+                    GroupMessageDeleteEvent,
+                    GroupMessageEvent,
+                ),
+            ):
+                try:
+                    info = await self.bot.get_group_member_info(
+                        group_id=self.event.group_id, user_id=user_id
+                    )
+                except ActionFailed as e:
+                    logger.warning(f"Error calling get_group_member_info: {e}")
+                    pass
 
             if not info:
                 if self.bot.self_id == user_id:

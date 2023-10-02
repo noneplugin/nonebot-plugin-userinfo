@@ -2,7 +2,6 @@ from typing import Optional
 
 from nonebot.exception import ActionFailed
 from nonebot.log import logger
-from nonebot_plugin_session import SessionLevel
 
 from ..getter import UserInfoGetter, register_user_info_getter
 from ..image_source import ImageUrl
@@ -23,11 +22,15 @@ try:
                     logger.warning(f"Error calling user_me: {e}")
                     pass
 
-            elif self.session.level == SessionLevel.LEVEL3:
-                if self.session.id3:
+            elif self.event.channel_type == "GROUP":
+                if self.event.type_ == 255:
+                    guild_id = self.event.target_id
+                else:
+                    guild_id = self.event.extra.guild_id
+                if guild_id:
                     try:
                         user = await self.bot.user_view(
-                            user_id=user_id, guild_id=self.session.id3
+                            user_id=user_id, guild_id=guild_id
                         )
                     except ActionFailed as e:
                         logger.warning(f"Error calling user_view: {e}")

@@ -12,7 +12,8 @@ from nonebug import App
 
 
 async def test_private_message_event(app: App):
-    from nonebot_plugin_userinfo import QQAvatar, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import QQAvatar
     from tests.plugins.echo import user_info_cmd
 
     event = PrivateMessageEvent(
@@ -55,7 +56,8 @@ async def test_private_message_event(app: App):
 
 
 async def test_group_message_event(app: App):
-    from nonebot_plugin_userinfo import QQAvatar, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import QQAvatar
     from tests.plugins.echo import user_info_cmd
 
     event = GroupMessageEvent(
@@ -142,7 +144,8 @@ async def test_channel_message_event(app: App):
 
 
 async def test_channel_message_event_all4one(app: App):
-    from nonebot_plugin_userinfo import ImageUrl, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import ImageUrl
     from tests.plugins.echo import user_info_cmd
 
     event = ChannelMessageEvent(
@@ -197,7 +200,8 @@ async def test_channel_message_event_all4one(app: App):
 
 
 async def test_bot_user_info(app: App):
-    from nonebot_plugin_userinfo import QQAvatar, UserInfo
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import QQAvatar
     from tests.plugins.echo import bot_user_info_cmd
 
     event = PrivateMessageEvent(
