@@ -11,10 +11,10 @@ repository = "https://github.com/noneplugin/nonebot-plugin-userinfo"
 [tool.poetry.dependencies]
 python = "^3.8"
 nonebot2 = { version = "^2.0.0", extras = ["fastapi"] }
-nonebot-plugin-session = { git = "https://github.com/noneplugin/nonebot-plugin-session.git", branch = "dev" }
 httpx = ">=0.20.0,<1.0.0"
 cachetools = "^5.0.0"
 emoji = "^2.0.0"
+strenum = "^0.4.8"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"
@@ -38,7 +38,7 @@ nonebot-adapter-red = "^0.4.2"
 nonebot-adapter-discord = "^0.1.0b1"
 
 [tool.nonebot]
-plugins = ["nonebot_plugin_session"]
+plugins = ["nonebot_plugin_userinfo"]
 adapters = [
   { name = "Console", module_name = "nonebot.adapters.console" },
   { name = "OneBot V11", module_name = "nonebot.adapters.onebot.v11" },

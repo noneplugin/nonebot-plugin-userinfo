@@ -1,7 +1,4 @@
-from nonebot import require
 from nonebot.plugin import PluginMetadata
-
-require("nonebot_plugin_session")
 
 from . import adapters
 from .getter import BotUserInfo, EventUserInfo, get_user_info

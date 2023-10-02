@@ -2,14 +2,20 @@ from typing import Optional
 
 from nonebot.exception import ActionFailed
 from nonebot.log import logger
-from nonebot_plugin_session import SessionLevel
 
 from ..getter import UserInfoGetter, register_user_info_getter
 from ..image_source import ImageUrl
 from ..user_info import UserInfo
 
 try:
-    from nonebot.adapters.qqguild import Bot, Event, MessageEvent
+    from nonebot.adapters.qqguild import (
+        Bot,
+        DirectMessageCreateEvent,
+        Event,
+        MessageAuditEvent,
+        MessageEvent,
+        MessageReactionEvent,
+    )
 
     @register_user_info_getter(Bot, Event)
     class Getter(UserInfoGetter[Bot, Event]):
@@ -17,11 +23,18 @@ try:
             member = None
             user = None
 
-            if self.session.level == SessionLevel.LEVEL3:
-                if self.session.id3:
+            if isinstance(
+                self.event,
+                (
+                    MessageEvent,
+                    MessageAuditEvent,
+                    MessageReactionEvent,
+                ),
+            ) and not isinstance(self.event, DirectMessageCreateEvent):
+                if guild_id := self.event.guild_id:
                     try:
                         member = await self.bot.get_member(
-                            guild_id=int(self.session.id3), user_id=int(user_id)
+                            guild_id=int(guild_id), user_id=int(user_id)
                         )
                         if member:
                             user = member.user
