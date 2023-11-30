@@ -1,17 +1,19 @@
 from nonebot.adapters.feishu import (
     Bot,
     EventHeader,
-    GroupEventMessage,
     GroupMessageEvent,
     GroupMessageEventDetail,
-    PrivateEventMessage,
     PrivateMessageEvent,
     PrivateMessageEventDetail,
-    Sender,
     UserId,
 )
-from nonebot.adapters.feishu.bot import BotInfo
 from nonebot.adapters.feishu.config import BotConfig
+from nonebot.adapters.feishu.models import (
+    BotInfo,
+    GroupEventMessage,
+    PrivateEventMessage,
+    Sender,
+)
 from nonebug.app import App
 
 BOT_CONFIG = BotConfig(app_id="114", app_secret="514", verification_token="1919810")
@@ -85,7 +87,7 @@ async def test_private_message_event(app: App):
         )
         ctx.receive_event(bot, event)
         ctx.should_call_api(
-            f"contact/v3/users/3344",
+            "contact/v3/users/3344",
             {"method": "GET", "query": {"user_id_type": "open_id"}},
             {
                 "user": {
@@ -161,7 +163,7 @@ async def test_group_message_event(app: App):
         )
         ctx.receive_event(bot, event)
         ctx.should_call_api(
-            f"contact/v3/users/3344",
+            "contact/v3/users/3344",
             {"method": "GET", "query": {"user_id_type": "open_id"}},
             {
                 "user": {
