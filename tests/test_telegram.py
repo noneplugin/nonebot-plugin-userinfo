@@ -50,7 +50,7 @@ async def test_private_message_event(app: App):
 
     async with app.test_matcher(user_info_cmd) as ctx:
         bot = ctx.create_bot(
-            base=Bot, self_id="2233", config=BotConfig(token=f"2233:xxx")
+            base=Bot, self_id="2233", config=BotConfig(token="2233:xxx")
         )
         ctx.receive_event(bot, event)
         ctx.should_call_api(
@@ -116,7 +116,7 @@ async def test_group_message_event(app: App):
 
     async with app.test_matcher(user_info_cmd) as ctx:
         bot = ctx.create_bot(
-            base=Bot, self_id="2233", config=BotConfig(token=f"2233:xxx")
+            base=Bot, self_id="2233", config=BotConfig(token="2233:xxx")
         )
         ctx.receive_event(bot, event)
         ctx.should_call_api(
@@ -187,7 +187,7 @@ async def test_forum_topic_message_event(app: App):
 
     async with app.test_matcher(user_info_cmd) as ctx:
         bot = ctx.create_bot(
-            base=Bot, self_id="2233", config=BotConfig(token=f"2233:xxx")
+            base=Bot, self_id="2233", config=BotConfig(token="2233:xxx")
         )
         ctx.receive_event(bot, event)
         ctx.should_call_api(
@@ -256,7 +256,7 @@ async def test_bot_user_info(app: App):
 
     async with app.test_matcher(bot_user_info_cmd) as ctx:
         bot = ctx.create_bot(
-            base=Bot, self_id="2233", config=BotConfig(token=f"2233:xxx")
+            base=Bot, self_id="2233", config=BotConfig(token="2233:xxx")
         )
         ctx.receive_event(bot, event)
         ctx.should_call_api(

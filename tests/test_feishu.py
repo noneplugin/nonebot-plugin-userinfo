@@ -85,7 +85,7 @@ async def test_private_message_event(app: App):
         )
         ctx.receive_event(bot, event)
         ctx.should_call_api(
-            f"contact/v3/users/3344",
+            "contact/v3/users/3344",
             {"method": "GET", "query": {"user_id_type": "open_id"}},
             {
                 "user": {
@@ -161,7 +161,7 @@ async def test_group_message_event(app: App):
         )
         ctx.receive_event(bot, event)
         ctx.should_call_api(
-            f"contact/v3/users/3344",
+            "contact/v3/users/3344",
             {"method": "GET", "query": {"user_id_type": "open_id"}},
             {
                 "user": {

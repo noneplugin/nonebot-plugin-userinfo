@@ -17,7 +17,6 @@ emoji = "^2.0.0"
 strenum = "^0.4.8"
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.8.0"
 
 [tool.poetry.group.test.dependencies]
 pytest-cov = "^4.0.0"
@@ -36,23 +35,32 @@ nonebot-adapter-telegram = "^0.1.0b14"
 nonebot-adapter-feishu = "^2.0.1"
 nonebot-adapter-red = "^0.5.2"
 nonebot-adapter-discord = "^0.1.0b4"
-
-[tool.nonebot]
-plugins = ["nonebot_plugin_userinfo"]
-adapters = [
-  { name = "Console", module_name = "nonebot.adapters.console" },
-  { name = "OneBot V11", module_name = "nonebot.adapters.onebot.v11" },
-  { name = "OneBot V12", module_name = "nonebot.adapters.onebot.v12" },
-  { name = "Kaiheila", module_name = "nonebot.adapters.kaiheila" },
-  { name = "QQ Guild", module_name = "nonebot.adapters.qqguild" },
-  { name = "Telegram", module_name = "nonebot.adapters.telegram" },
-  { name = "Feishu", module_name = "nonebot.adapters.feishu" },
-  { name = "RedProtocol", module_name = "nonebot.adapters.red" },
-  { name = "Discord", module_name = "nonebot.adapters.discord" },
-]
+nonebot-adapter-dodo = "^0.1.3"
+nonebot-adapter-villa = "^1.2.2"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+
+[tool.nonebot]
+plugins = ["nonebot_plugin_userinfo"]
+
+[tool.isort]
+profile = "black"
+skip_gitignore = true
+
+[tool.ruff]
+select = ["E", "W", "F", "UP", "C", "T", "PYI", "Q"]
+ignore = ["E402", "E501", "E711", "C901", "UP037"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+  "@overload",
+  "except ImportError:",
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

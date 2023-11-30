@@ -1,9 +1,11 @@
 from nonebot.plugin import PluginMetadata
 
-from . import adapters
-from .getter import BotUserInfo, EventUserInfo, get_user_info
-from .image_source import ImageSource
-from .user_info import UserInfo
+from . import adapters as adapters
+from .getter import BotUserInfo as BotUserInfo
+from .getter import EventUserInfo as EventUserInfo
+from .getter import get_user_info as get_user_info
+from .image_source import ImageSource as ImageSource
+from .user_info import UserInfo as UserInfo
 
 __plugin_meta__ = PluginMetadata(
     name="用户信息",
