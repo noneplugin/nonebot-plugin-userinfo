@@ -5,6 +5,7 @@ from .getter import BotUserInfo as BotUserInfo
 from .getter import EventUserInfo as EventUserInfo
 from .getter import get_user_info as get_user_info
 from .image_source import ImageSource as ImageSource
+from .user_info import UserGender as UserGender
 from .user_info import UserInfo as UserInfo
 
 __plugin_meta__ = PluginMetadata(
