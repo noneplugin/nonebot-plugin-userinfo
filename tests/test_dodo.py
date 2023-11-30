@@ -57,10 +57,6 @@ async def test_message_event(app: App):
         ctx.receive_event(bot, event)
         ctx.should_call_send(event, "", True, user_info=user_info)
 
-        event = _fake_channel_message_event("/user_info_depends")
-        ctx.receive_event(bot, event)
-        ctx.should_call_send(event, "", True, user_info=user_info)
-
         user_info = UserInfo(
             user_id="2345",
             user_name="member",

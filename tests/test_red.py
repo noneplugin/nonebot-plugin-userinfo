@@ -7,11 +7,11 @@ from nonebot.adapters.red.api.model import (
     TextElement,
 )
 from nonebot.adapters.red.config import BotInfo
-from nonebot.adapters.red.event import GroupMessageEvent, PrivateMessageEvent
+from nonebot.adapters.red.event import GroupMessageEvent
 from nonebug import App
 
 
-def text_element(text: str) -> Element:
+def _text_element(text: str) -> Element:
     return Element(
         elementType=1,
         elementId="1111",
@@ -53,12 +53,8 @@ def text_element(text: str) -> Element:
     )
 
 
-async def test_group_message_event(app: App):
-    from nonebot_plugin_userinfo import UserInfo
-    from nonebot_plugin_userinfo.image_source import QQAvatar
-    from tests.plugins.echo import user_info_cmd
-
-    event = GroupMessageEvent(
+def _fake_group_message_event(msg: str) -> GroupMessageEvent:
+    return GroupMessageEvent(
         msgId="7272944513098472702",
         msgRandom="1526531828",
         msgSeq="831",
@@ -83,9 +79,9 @@ async def test_group_message_event(app: App):
         sendNickName="uy/sun",
         guildName="",
         channelName="",
-        elements=[text_element("/user_info")],
-        message=Message("/user_info"),
-        original_message=Message("/user_info"),
+        elements=[_text_element(msg)],
+        message=Message(msg),
+        original_message=Message(msg),
         records=[],
         emojiLikesList=[],
         commentCnt="0",
@@ -111,96 +107,44 @@ async def test_group_message_event(app: App):
         nameType=0,
         avatarFlag=0,
     )
-    user_info = UserInfo(
-        user_id="1234",
-        user_name="uy/sun",
-        user_displayname="",
-        user_remark=None,
-        user_avatar=QQAvatar(qq=1234),
-        user_gender="unknown",
-    )
-    async with app.test_matcher(user_info_cmd) as ctx:
+
+
+async def test_message_event(app: App):
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import QQAvatar
+
+    async with app.test_matcher() as ctx:
         bot = ctx.create_bot(
             base=Bot,
             self_id="2233",
             info=BotInfo(port=1234, token="1234"),
         )
+
+        user_info = UserInfo(
+            user_id="1234",
+            user_name="uy/sun",
+            user_displayname="",
+            user_remark=None,
+            user_avatar=QQAvatar(qq=1234),
+            user_gender="unknown",
+        )
+        event = _fake_group_message_event("/user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_send(event, "", True, user_info=user_info)
 
+        event = _fake_group_message_event("/user_info 4321")
+        ctx.receive_event(bot, event)
+        ctx.should_call_send(event, "", True, user_info=None)
 
-async def test_bot_user_info(app: App):
-    from nonebot_plugin_userinfo import UserInfo
-    from nonebot_plugin_userinfo.image_source import QQAvatar
-    from tests.plugins.echo import bot_user_info_cmd
-
-    event = PrivateMessageEvent(
-        msgId="7272944767457625851",
-        msgRandom="196942265",
-        msgSeq="103",
-        cntSeq="0",
-        chatType=ChatType.FRIEND,
-        msgType=MsgType.normal,
-        subMsgType=1,
-        sendType=0,
-        senderUid="4321",
-        senderUin="1234",
-        peerUid="4321",
-        peerUin="1234",
-        channelId="",
-        guildId="",
-        guildCode="0",
-        fromUid="0",
-        fromAppid="0",
-        msgTime="1693364414",
-        msgMeta="0x",
-        sendStatus=2,
-        sendMemberName="",
-        sendNickName="",
-        guildName="",
-        channelName="",
-        elements=[text_element("/bot_user_info")],
-        message=Message("/user_info"),
-        original_message=Message("/user_info"),
-        records=[],
-        emojiLikesList=[],
-        commentCnt="0",
-        directMsgFlag=0,
-        directMsgMembers=[],
-        peerName="",
-        editable=False,
-        avatarMeta="",
-        avatarPendant="",
-        feedId="",
-        roleId="0",
-        timeStamp="0",
-        isImportMsg=False,
-        atType=0,
-        roleType=0,
-        fromChannelRoleInfo=RoleInfo(roleId="0", name="", color=0),
-        fromGuildRoleInfo=RoleInfo(roleId="0", name="", color=0),
-        levelRoleInfo=RoleInfo(roleId="0", name="", color=0),
-        recallTime="0",
-        isOnlineMsg=True,
-        generalFlags="0x",
-        clientSeq="27516",
-        nameType=0,
-        avatarFlag=0,
-    )
-    user_info = UserInfo(
-        user_id="2233",
-        user_name="Bot",
-        user_displayname=None,
-        user_remark=None,
-        user_avatar=QQAvatar(qq=2233),
-        user_gender="male",
-    )
-    async with app.test_matcher(bot_user_info_cmd) as ctx:
-        bot = ctx.create_bot(
-            base=Bot,
-            self_id="2233",
-            info=BotInfo(port=1234, token="1234"),
+        user_info = UserInfo(
+            user_id="2233",
+            user_name="Bot",
+            user_displayname=None,
+            user_remark=None,
+            user_avatar=QQAvatar(qq=2233),
+            user_gender="male",
         )
+        event = _fake_group_message_event("/bot_user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_self_profile",

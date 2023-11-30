@@ -17,11 +17,7 @@ from nonebot.adapters.telegram.model import (
 from nonebug import App
 
 
-async def test_private_message_event(app: App):
-    from nonebot_plugin_userinfo import UserInfo
-    from nonebot_plugin_userinfo.image_source import TelegramFile
-    from tests.plugins.echo import user_info_cmd
-
+def _fake_private_message_event(msg: str) -> PrivateMessageEvent:
     event = Event.parse_event(
         {
             "update_id": 10000,
@@ -30,28 +26,71 @@ async def test_private_message_event(app: App):
                 "date": 1122,
                 "chat": {"id": 3344, "type": "private"},
                 "from": {"id": 3344, "is_bot": False, "first_name": "test"},
-                "text": "/user_info",
+                "text": msg,
             },
         }
     )
     assert isinstance(event, PrivateMessageEvent)
+    return event
 
-    user_info = UserInfo(
-        user_id="3344",
-        user_name="MyUser",
-        user_displayname="test",
-        user_remark=None,
-        user_avatar=TelegramFile(
-            token="2233:xxx",
-            file_path="photos/xxxx.jpg",
-        ),
-        user_gender="unknown",
+
+def _fake_group_message_event(msg: str) -> GroupMessageEvent:
+    event = Event.parse_event(
+        {
+            "update_id": 10000,
+            "message": {
+                "message_id": 1234,
+                "date": 1122,
+                "chat": {"id": 5566, "type": "group"},
+                "from": {"id": 3344, "is_bot": False, "first_name": "test"},
+                "text": msg,
+            },
+        }
     )
+    assert isinstance(event, GroupMessageEvent)
+    return event
 
-    async with app.test_matcher(user_info_cmd) as ctx:
+
+def _fake_forum_topic_message_event(msg: str) -> ForumTopicMessageEvent:
+    event = Event.parse_event(
+        {
+            "update_id": 10000,
+            "message": {
+                "message_id": 1234,
+                "date": 1122,
+                "chat": {"id": 5566, "type": "group"},
+                "from": {"id": 3344, "is_bot": False, "first_name": "test"},
+                "message_thread_id": 6677,
+                "is_topic_message": True,
+                "text": msg,
+            },
+        }
+    )
+    assert isinstance(event, ForumTopicMessageEvent)
+    return event
+
+
+async def test_message_event(app: App):
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import TelegramFile
+
+    async with app.test_matcher() as ctx:
         bot = ctx.create_bot(
             base=Bot, self_id="2233", config=BotConfig(token="2233:xxx")
         )
+
+        user_info = UserInfo(
+            user_id="3344",
+            user_name="MyUser",
+            user_displayname="test",
+            user_remark=None,
+            user_avatar=TelegramFile(
+                token="2233:xxx",
+                file_path="photos/xxxx.jpg",
+            ),
+            user_gender="unknown",
+        )
+        event = _fake_private_message_event("/user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_chat",
@@ -82,42 +121,18 @@ async def test_private_message_event(app: App):
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
 
-
-async def test_group_message_event(app: App):
-    from nonebot_plugin_userinfo import UserInfo
-    from nonebot_plugin_userinfo.image_source import TelegramFile
-    from tests.plugins.echo import user_info_cmd
-
-    event = Event.parse_event(
-        {
-            "update_id": 10000,
-            "message": {
-                "message_id": 1234,
-                "date": 1122,
-                "chat": {"id": 5566, "type": "group"},
-                "from": {"id": 3344, "is_bot": False, "first_name": "test"},
-                "text": "/user_info",
-            },
-        }
-    )
-    assert isinstance(event, GroupMessageEvent)
-
-    user_info = UserInfo(
-        user_id="3344",
-        user_name="MyUser",
-        user_displayname="test",
-        user_remark=None,
-        user_avatar=TelegramFile(
-            token="2233:xxx",
-            file_path="photos/xxxx.jpg",
-        ),
-        user_gender="unknown",
-    )
-
-    async with app.test_matcher(user_info_cmd) as ctx:
-        bot = ctx.create_bot(
-            base=Bot, self_id="2233", config=BotConfig(token="2233:xxx")
+        user_info = UserInfo(
+            user_id="3344",
+            user_name="MyUser",
+            user_displayname="test",
+            user_remark=None,
+            user_avatar=TelegramFile(
+                token="2233:xxx",
+                file_path="photos/xxxx.jpg",
+            ),
+            user_gender="unknown",
         )
+        event = _fake_group_message_event("/user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_chat_member",
@@ -151,44 +166,18 @@ async def test_group_message_event(app: App):
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
 
-
-async def test_forum_topic_message_event(app: App):
-    from nonebot_plugin_userinfo import UserInfo
-    from nonebot_plugin_userinfo.image_source import TelegramFile
-    from tests.plugins.echo import user_info_cmd
-
-    event = Event.parse_event(
-        {
-            "update_id": 10000,
-            "message": {
-                "message_id": 1234,
-                "date": 1122,
-                "chat": {"id": 5566, "type": "group"},
-                "from": {"id": 3344, "first_name": "test", "is_bot": False},
-                "message_thread_id": 6677,
-                "is_topic_message": True,
-                "text": "/user_info",
-            },
-        }
-    )
-    assert isinstance(event, ForumTopicMessageEvent)
-
-    user_info = UserInfo(
-        user_id="3344",
-        user_name="MyUser",
-        user_displayname="test",
-        user_remark=None,
-        user_avatar=TelegramFile(
-            token="2233:xxx",
-            file_path="photos/xxxx.jpg",
-        ),
-        user_gender="unknown",
-    )
-
-    async with app.test_matcher(user_info_cmd) as ctx:
-        bot = ctx.create_bot(
-            base=Bot, self_id="2233", config=BotConfig(token="2233:xxx")
+        user_info = UserInfo(
+            user_id="3344",
+            user_name="MyUser",
+            user_displayname="test",
+            user_remark=None,
+            user_avatar=TelegramFile(
+                token="2233:xxx",
+                file_path="photos/xxxx.jpg",
+            ),
+            user_gender="unknown",
         )
+        event = _fake_forum_topic_message_event("/user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_chat_member",
@@ -222,42 +211,18 @@ async def test_forum_topic_message_event(app: App):
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
 
-
-async def test_bot_user_info(app: App):
-    from nonebot_plugin_userinfo import UserInfo
-    from nonebot_plugin_userinfo.image_source import TelegramFile
-    from tests.plugins.echo import bot_user_info_cmd
-
-    event = Event.parse_event(
-        {
-            "update_id": 10000,
-            "message": {
-                "message_id": 1234,
-                "date": 1122,
-                "chat": {"id": 3344, "type": "private"},
-                "from": {"id": 3344, "is_bot": False, "first_name": "test"},
-                "text": "/bot_user_info",
-            },
-        }
-    )
-    assert isinstance(event, PrivateMessageEvent)
-
-    user_info = UserInfo(
-        user_id="2233",
-        user_name="Bot",
-        user_displayname="test",
-        user_remark=None,
-        user_avatar=TelegramFile(
-            token="2233:xxx",
-            file_path="photos/xxxx.jpg",
-        ),
-        user_gender="unknown",
-    )
-
-    async with app.test_matcher(bot_user_info_cmd) as ctx:
-        bot = ctx.create_bot(
-            base=Bot, self_id="2233", config=BotConfig(token="2233:xxx")
+        user_info = UserInfo(
+            user_id="2233",
+            user_name="Bot",
+            user_displayname="test",
+            user_remark=None,
+            user_avatar=TelegramFile(
+                token="2233:xxx",
+                file_path="photos/xxxx.jpg",
+            ),
+            user_gender="unknown",
         )
+        event = _fake_private_message_event("/bot_user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_me",

@@ -11,12 +11,8 @@ from nonebot.adapters.onebot.v12.event import BotSelf
 from nonebug import App
 
 
-async def test_private_message_event(app: App):
-    from nonebot_plugin_userinfo import UserInfo
-    from nonebot_plugin_userinfo.image_source import QQAvatar
-    from tests.plugins.echo import user_info_cmd
-
-    event = PrivateMessageEvent(
+def _fake_private_message_event(msg: str) -> PrivateMessageEvent:
+    return PrivateMessageEvent(
         id="1122",
         time=datetime.now(),
         type="message",
@@ -24,23 +20,66 @@ async def test_private_message_event(app: App):
         sub_type="",
         message_id="4455",
         self=BotSelf(platform="qq", user_id="2233"),
-        message=Message("/user_info"),
-        original_message=Message("/user_info"),
-        alt_message="/user_info",
+        message=Message(msg),
+        original_message=Message(msg),
+        alt_message=msg,
         user_id="3344",
     )
 
-    user_info = UserInfo(
+
+def _fake_group_message_event(msg: str) -> GroupMessageEvent:
+    return GroupMessageEvent(
+        id="1122",
+        time=datetime.now(),
+        type="message",
+        detail_type="group",
+        sub_type="",
+        message_id="4455",
+        self=BotSelf(platform="qq", user_id="2233"),
+        message=Message(msg),
+        original_message=Message(msg),
+        alt_message=msg,
         user_id="3344",
-        user_name="MyUser",
-        user_displayname="",
-        user_remark="MyRemark",
-        user_avatar=QQAvatar(qq=3344),
-        user_gender="unknown",
+        group_id="1122",
     )
 
-    async with app.test_matcher(user_info_cmd) as ctx:
+
+def _fake_channel_message_event(
+    msg: str, platform: str = "kook"
+) -> ChannelMessageEvent:
+    return ChannelMessageEvent(
+        id="1122",
+        time=datetime.now(),
+        type="message",
+        detail_type="channel",
+        sub_type="",
+        message_id="4455",
+        self=BotSelf(platform=platform, user_id="2233"),
+        message=Message(msg),
+        original_message=Message(msg),
+        alt_message=msg,
+        user_id="3344",
+        guild_id="5566",
+        channel_id="6677",
+    )
+
+
+async def test_message_event(app: App):
+    from nonebot_plugin_userinfo import UserInfo
+    from nonebot_plugin_userinfo.image_source import QQAvatar
+
+    async with app.test_matcher() as ctx:
         bot = ctx.create_bot(base=Bot, self_id="2233", impl="walle-q", platform="qq")
+
+        user_info = UserInfo(
+            user_id="3344",
+            user_name="MyUser",
+            user_displayname="",
+            user_remark="MyRemark",
+            user_avatar=QQAvatar(qq=3344),
+            user_gender="unknown",
+        )
+        event = _fake_private_message_event("/user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_user_info",
@@ -54,38 +93,15 @@ async def test_private_message_event(app: App):
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
 
-
-async def test_group_message_event(app: App):
-    from nonebot_plugin_userinfo import UserInfo
-    from nonebot_plugin_userinfo.image_source import QQAvatar
-    from tests.plugins.echo import user_info_cmd
-
-    event = GroupMessageEvent(
-        id="1122",
-        time=datetime.now(),
-        type="message",
-        detail_type="group",
-        sub_type="",
-        message_id="4455",
-        self=BotSelf(platform="qq", user_id="2233"),
-        message=Message("/user_info"),
-        original_message=Message("/user_info"),
-        alt_message="/user_info",
-        user_id="3344",
-        group_id="1122",
-    )
-
-    user_info = UserInfo(
-        user_id="3344",
-        user_name="MyUser",
-        user_displayname="MyDisplayName",
-        user_remark=None,
-        user_avatar=QQAvatar(qq=3344),
-        user_gender="unknown",
-    )
-
-    async with app.test_matcher(user_info_cmd) as ctx:
-        bot = ctx.create_bot(base=Bot, self_id="2233", impl="walle-q", platform="qq")
+        user_info = UserInfo(
+            user_id="3344",
+            user_name="MyUser",
+            user_displayname="MyDisplayName",
+            user_remark=None,
+            user_avatar=QQAvatar(qq=3344),
+            user_gender="unknown",
+        )
+        event = _fake_group_message_event("/user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_group_member_info",
@@ -98,38 +114,65 @@ async def test_group_message_event(app: App):
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
 
+        user_info = UserInfo(
+            user_id="1234",
+            user_name="user",
+            user_displayname="displayname",
+            user_remark=None,
+            user_avatar=QQAvatar(qq=1234),
+            user_gender="unknown",
+        )
+        event = _fake_group_message_event("/user_info 1234")
+        ctx.receive_event(bot, event)
+        ctx.should_call_api(
+            "get_group_member_info",
+            {"group_id": "1122", "user_id": "1234"},
+            {
+                "user_id": "1234",
+                "user_name": "user",
+                "user_displayname": "displayname",
+            },
+        )
+        ctx.should_call_send(event, "", True, user_info=user_info)
+
+        user_info = UserInfo(
+            user_id="2233",
+            user_name="Bot",
+            user_displayname="",
+            user_remark="Remark",
+            user_avatar=QQAvatar(qq=2233),
+            user_gender="unknown",
+        )
+        event = _fake_private_message_event("/bot_user_info")
+        ctx.receive_event(bot, event)
+        ctx.should_call_api(
+            "get_self_info",
+            {},
+            {
+                "user_id": "2233",
+                "user_name": "Bot",
+                "user_displayname": "",
+                "user_remark": "Remark",
+            },
+        )
+        ctx.should_call_send(event, "", True, user_info=user_info)
+
 
 async def test_channel_message_event(app: App):
     from nonebot_plugin_userinfo import UserInfo
-    from tests.plugins.echo import user_info_cmd
 
-    event = ChannelMessageEvent(
-        id="1122",
-        time=datetime.now(),
-        type="message",
-        detail_type="channel",
-        sub_type="",
-        message_id="4455",
-        self=BotSelf(platform="KOOK", user_id="2233"),
-        message=Message("/user_info"),
-        original_message=Message("/user_info"),
-        alt_message="/user_info",
-        user_id="3344",
-        guild_id="5566",
-        channel_id="6677",
-    )
+    async with app.test_matcher() as ctx:
+        bot = ctx.create_bot(base=Bot, self_id="2233", impl="walle-k", platform="kook")
 
-    user_info = UserInfo(
-        user_id="3344",
-        user_name="MyUser",
-        user_displayname="MyDisplayName",
-        user_remark=None,
-        user_avatar=None,
-        user_gender="unknown",
-    )
-
-    async with app.test_matcher(user_info_cmd) as ctx:
-        bot = ctx.create_bot(base=Bot, self_id="2233", impl="Walle-K", platform="KOOK")
+        user_info = UserInfo(
+            user_id="3344",
+            user_name="MyUser",
+            user_displayname="MyDisplayName",
+            user_remark=None,
+            user_avatar=None,
+            user_gender="unknown",
+        )
+        event = _fake_channel_message_event("/user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_channel_member_info",
@@ -143,40 +186,23 @@ async def test_channel_message_event(app: App):
         ctx.should_call_send(event, "", True, user_info=user_info)
 
 
-async def test_channel_message_event_all4one(app: App):
+async def test_all4one_qqguild(app: App):
     from nonebot_plugin_userinfo import UserInfo
     from nonebot_plugin_userinfo.image_source import ImageUrl
-    from tests.plugins.echo import user_info_cmd
 
-    event = ChannelMessageEvent(
-        id="1122",
-        time=datetime.now(),
-        type="message",
-        detail_type="channel",
-        sub_type="",
-        message_id="4455",
-        self=BotSelf(platform="qqguild", user_id="2233"),
-        message=Message("/user_info"),
-        original_message=Message("/user_info"),
-        alt_message="/user_info",
-        user_id="3344",
-        guild_id="5566",
-        channel_id="6677",
-    )
-
-    user_info = UserInfo(
-        user_id="3344",
-        user_name="MyUser",
-        user_displayname="MyDisplayName",
-        user_remark=None,
-        user_avatar=ImageUrl(url="http://xxx.jpg"),
-        user_gender="unknown",
-    )
-
-    async with app.test_matcher(user_info_cmd) as ctx:
+    async with app.test_matcher() as ctx:
         bot = ctx.create_bot(
             base=Bot, self_id="2233", impl="nonebot-plugin-all4one", platform="qqguild"
         )
+        user_info = UserInfo(
+            user_id="3344",
+            user_name="MyUser",
+            user_displayname="MyDisplayName",
+            user_remark=None,
+            user_avatar=ImageUrl(url="http://xxx.jpg"),
+            user_gender="unknown",
+        )
+        event = _fake_channel_message_event("/user_info", platform="qqguild")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_channel_member_info",
@@ -194,50 +220,6 @@ async def test_channel_message_event_all4one(app: App):
                 },
                 "qqguild.roles": [],
                 "qqguild.joined_at": None,
-            },
-        )
-        ctx.should_call_send(event, "", True, user_info=user_info)
-
-
-async def test_bot_user_info(app: App):
-    from nonebot_plugin_userinfo import UserInfo
-    from nonebot_plugin_userinfo.image_source import QQAvatar
-    from tests.plugins.echo import bot_user_info_cmd
-
-    event = PrivateMessageEvent(
-        id="1122",
-        time=datetime.now(),
-        type="message",
-        detail_type="private",
-        sub_type="",
-        message_id="4455",
-        self=BotSelf(platform="qq", user_id="2233"),
-        message=Message("/bot_user_info"),
-        original_message=Message("/bot_user_info"),
-        alt_message="/bot_user_info",
-        user_id="3344",
-    )
-
-    user_info = UserInfo(
-        user_id="2233",
-        user_name="Bot",
-        user_displayname="",
-        user_remark="Remark",
-        user_avatar=QQAvatar(qq=2233),
-        user_gender="unknown",
-    )
-
-    async with app.test_matcher(bot_user_info_cmd) as ctx:
-        bot = ctx.create_bot(base=Bot, self_id="2233", impl="walle-q", platform="qq")
-        ctx.receive_event(bot, event)
-        ctx.should_call_api(
-            "get_self_info",
-            {},
-            {
-                "user_id": "2233",
-                "user_name": "Bot",
-                "user_displayname": "",
-                "user_remark": "Remark",
             },
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
