@@ -1,17 +1,19 @@
 from nonebot.adapters.feishu import (
     Bot,
     EventHeader,
-    GroupEventMessage,
     GroupMessageEvent,
     GroupMessageEventDetail,
-    PrivateEventMessage,
     PrivateMessageEvent,
     PrivateMessageEventDetail,
-    Sender,
     UserId,
 )
-from nonebot.adapters.feishu.bot import BotInfo
 from nonebot.adapters.feishu.config import BotConfig
+from nonebot.adapters.feishu.models import (
+    BotInfo,
+    GroupEventMessage,
+    PrivateEventMessage,
+    Sender,
+)
 from nonebug.app import App
 
 BOT_CONFIG = BotConfig(app_id="114", app_secret="514", verification_token="1919810")
