@@ -61,6 +61,9 @@ exclude_lines = [
   "if TYPE_CHECKING:",
   "@overload",
   "except ImportError:",
+  "except ActionFailed as e:",
+  "except KeyError:",
+  "pass",
 ]
 
 [build-system]

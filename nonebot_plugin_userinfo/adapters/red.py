@@ -40,7 +40,6 @@ try:
                     )
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_self_profile: {e}")
-                    pass
 
             if (
                 isinstance(self.event, MessageEvent)
@@ -74,7 +73,6 @@ try:
                                 )
                     except ActionFailed as e:
                         logger.warning(f"Error calling get_members: {e}")
-                        pass
 
 except ImportError:
     pass

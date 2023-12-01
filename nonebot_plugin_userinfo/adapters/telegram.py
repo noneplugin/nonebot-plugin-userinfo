@@ -30,7 +30,6 @@ try:
                     user = await self.bot.get_me()
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_me: {e}")
-                    pass
 
             elif isinstance(
                 self.event,
@@ -53,14 +52,12 @@ try:
                         user = member.user
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_chat_member: {e}")
-                    pass
 
             if not user:
                 try:
                     user = await self.bot.get_chat(chat_id=int(user_id))
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_chat: {e}")
-                    pass
 
             if user:
                 avatar = None

@@ -20,7 +20,6 @@ try:
                     user = await self.bot.user_me()
                 except ActionFailed as e:
                     logger.warning(f"Error calling user_me: {e}")
-                    pass
 
             elif self.event.channel_type == "GROUP":
                 if self.event.type_ == 255:
@@ -34,14 +33,12 @@ try:
                         )
                     except ActionFailed as e:
                         logger.warning(f"Error calling user_view: {e}")
-                        pass
 
             if not user:
                 try:
                     user = await self.bot.user_view(user_id=user_id)
                 except ActionFailed as e:
                     logger.warning(f"Error calling user_view: {e}")
-                    pass
 
             if user:
                 url = user.vip_avatar or user.avatar

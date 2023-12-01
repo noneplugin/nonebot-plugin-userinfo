@@ -45,14 +45,12 @@ try:
                     )
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_group_member_info: {e}")
-                    pass
 
             if not info:
                 try:
                     info = await self.bot.get_stranger_info(user_id=int(user_id))
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_stranger_info failed: {e}")
-                    pass
 
             if info:
                 qq = info["user_id"]

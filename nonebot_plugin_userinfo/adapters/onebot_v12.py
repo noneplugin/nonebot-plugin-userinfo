@@ -49,7 +49,6 @@ try:
                     )
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_channel_member_info: {e}")
-                    pass
 
             elif isinstance(
                 self.event, (GuildMemberDecreaseEvent, GuildMemberIncreaseEvent)
@@ -60,7 +59,6 @@ try:
                     )
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_guild_member_info: {e}")
-                    pass
 
             elif isinstance(
                 self.event,
@@ -77,7 +75,6 @@ try:
                     )
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_group_member_info: {e}")
-                    pass
 
             if not info:
                 if self.bot.self_id == user_id:
@@ -85,13 +82,11 @@ try:
                         info = await self.bot.get_self_info()
                     except ActionFailed as e:
                         logger.warning(f"Error calling get_self_info: {e}")
-                        pass
                 else:
                     try:
                         info = await self.bot.get_user_info(user_id=user_id)
                     except ActionFailed as e:
                         logger.warning(f"Error calling get_user_info: {e}")
-                        pass
 
             if info:
                 user_id = info["user_id"]
