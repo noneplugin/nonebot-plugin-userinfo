@@ -820,13 +820,13 @@ nonebot2 = ">=2.0.0,<3.0.0"
 
 [[package]]
 name = "nonebot-adapter-dodo"
-version = "0.1.3"
+version = "0.1.4"
 description = "Dodo adapter for nonebot2"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "nonebot_adapter_dodo-0.1.3-py3-none-any.whl", hash = "sha256:9c8adb0eaafbd7b83a2290c20849ad8001b70df58fc7c9ecb76b43b3895e5bbf"},
-    {file = "nonebot_adapter_dodo-0.1.3.tar.gz", hash = "sha256:20bbad55a01b1e968b0e26536e3a1c20a6bb56261e39dcde03e534f280a9289f"},
+    {file = "nonebot_adapter_dodo-0.1.4-py3-none-any.whl", hash = "sha256:3bbe8ce1d686923dc7347d49e9e7164a93bc87e79626d6067e77b7c3d41d6861"},
+    {file = "nonebot_adapter_dodo-0.1.4.tar.gz", hash = "sha256:21375ee712e97fe546ef24654dcb479f51e972335f13b4208af9ef53cc5fca29"},
 ]
 
 [package.dependencies]
