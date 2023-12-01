@@ -912,6 +912,20 @@ packaging = ">=23.1"
 auto-detect = ["PyYAML"]
 
 [[package]]
+name = "nonebot-adapter-satori"
+version = "0.8.0"
+description = "Satori Protocol Adapter for Nonebot2"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "nonebot_adapter_satori-0.8.0-py3-none-any.whl", hash = "sha256:25d9726a961b73b6900a4dba3a8ec4f5d228a6cb96078b542379c9d6c9d3cefe"},
+    {file = "nonebot_adapter_satori-0.8.0.tar.gz", hash = "sha256:267c5b708ec2dd77b405d3ec779e817506e6d6914cc06688b529b43fe4288727"},
+]
+
+[package.dependencies]
+nonebot2 = ">=2.1.0"
+
+[[package]]
 name = "nonebot-adapter-telegram"
 version = "0.1.0b14"
 description = "Telegram Adapter for NoneBot2"
@@ -1842,4 +1856,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "e5e8dfce6cbc2dd12126592a184410423069da03041e613278009b06b39a836b"
+content-hash = "5100dc47d84c79036b706debfce38fa86dbe67eb4245816febe2c29568d3551e"
