@@ -132,9 +132,38 @@ async def test_message_event(app: App):
         ctx.receive_event(bot, event)
         ctx.should_call_send(event, "", True, user_info=user_info)
 
+        user_info = UserInfo(
+            user_id="4321",
+            user_name="uy/sun",
+            user_displayname="",
+            user_remark="",
+            user_avatar=QQAvatar(qq=4321),
+            user_gender="unknown",
+        )
         event = _fake_group_message_event("/user_info 4321")
         ctx.receive_event(bot, event)
-        ctx.should_call_send(event, "", True, user_info=None)
+        ctx.should_call_api(
+            "get_members",
+            {"group": 1111, "size": 3000},
+            [
+                {
+                    "detail": {
+                        "uid": 4321,
+                        "qid": "",
+                        "uin": "4321",
+                        "nick": "uy/sun",
+                        "remark": "",
+                        "cardType": 0,
+                        "cardName": "",
+                        "role": 0,
+                        "avatarPath": "",
+                        "shutUpTime": 0,
+                        "isDelete": False,
+                    }
+                }
+            ],
+        )
+        ctx.should_call_send(event, "", True, user_info=user_info)
 
         user_info = UserInfo(
             user_id="2233",
