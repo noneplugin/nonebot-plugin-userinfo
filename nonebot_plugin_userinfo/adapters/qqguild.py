@@ -40,7 +40,6 @@ try:
                             user = member.user
                     except ActionFailed as e:
                         logger.warning(f"Error calling get_member: {e}")
-                        pass
 
             if not user:
                 if self.bot.self_id == user_id:
@@ -48,7 +47,6 @@ try:
                         user = await self.bot.me()
                     except ActionFailed as e:
                         logger.warning(f"Error calling me: {e}")
-                        pass
 
                 elif (
                     isinstance(self.event, MessageEvent)

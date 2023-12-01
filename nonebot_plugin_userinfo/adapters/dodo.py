@@ -53,7 +53,6 @@ try:
                         )
                     except ActionFailed as e:
                         logger.warning(f"Error calling get_member_info: {e}")
-                        pass
 
             if user_id == self.bot.self_id:
                 bot_info = self.bot.bot_info
@@ -62,7 +61,7 @@ try:
                         bot_info = await self.bot.get_bot_info()
                     except ActionFailed as e:
                         logger.warning(f"Error calling get_bot_info: {e}")
-                        pass
+
                 if bot_info:
                     user_info = UserInfo(
                         user_id=bot_info.dodo_source_id,

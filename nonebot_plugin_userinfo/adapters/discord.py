@@ -25,14 +25,12 @@ try:
                     user = await self.bot.get_current_user()
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_current_user: {e}")
-                    pass
 
             if not user:
                 try:
                     user = await self.bot.get_user(user_id=int(user_id))
                 except ActionFailed as e:
                     logger.warning(f"Error calling get_user: {e}")
-                    pass
 
             if user:
                 return UserInfo(

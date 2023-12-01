@@ -895,13 +895,13 @@ pydantic = ">=1.9.0,<2.0.0"
 
 [[package]]
 name = "nonebot-adapter-red"
-version = "0.5.2"
+version = "0.7.4"
 description = "Red Protocol Adapter for Nonebot2"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "nonebot_adapter_red-0.5.2-py3-none-any.whl", hash = "sha256:fb0743411836f2d3351575e3f75f78c80fb6c8c0fe1b71256369cc737fe595ad"},
-    {file = "nonebot_adapter_red-0.5.2.tar.gz", hash = "sha256:11467b509ef75f7d920a0fe870287a9fea6fbe3a7ce6903eee287f63d893019d"},
+    {file = "nonebot_adapter_red-0.7.4-py3-none-any.whl", hash = "sha256:f886c6615ba3333ea6391a03f3418f22043c7f94a69236d8b23dac8b8a2fea14"},
+    {file = "nonebot_adapter_red-0.7.4.tar.gz", hash = "sha256:22253bcb8f4ec188d1d9293b1d42f4f87c6034dd4a607919961890d062d27c1f"},
 ]
 
 [package.dependencies]
@@ -1856,4 +1856,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "5100dc47d84c79036b706debfce38fa86dbe67eb4245816febe2c29568d3551e"
+content-hash = "1cb5cb41b35c79bd205c3fd677450945ef68ee692c070b7024f3b8d46cb363a4"
