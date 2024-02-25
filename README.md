@@ -80,13 +80,11 @@ async def handle(user_info: UserInfo = BotUserInfo()):  # 获取Bot用户信息
 - [x] OneBot v12
 - [x] Console
 - [x] Kaiheila
-- [x] QQ Guild
 - [x] Telegram
 - [x] Feishu
 - [x] RedProtocol
 - [x] Discord
 - [x] DoDo
-- [x] Villa
 - [x] Satori
 
 ### 鸣谢
