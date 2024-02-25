@@ -8,7 +8,7 @@ from nonebot.adapters.telegram.event import (
 )
 from nonebot.adapters.telegram.model import (
     Chat,
-    ChatMember,
+    ChatMemberMember,
     File,
     PhotoSize,
     User,
@@ -137,9 +137,8 @@ async def test_message_event(app: App):
         ctx.should_call_api(
             "get_chat_member",
             {"chat_id": 5566, "user_id": 3344},
-            ChatMember(
-                status="online",
-                user=User(id=3344, is_bot=False, username="MyUser", first_name="test"),
+            ChatMemberMember(
+                user=User(id=3344, is_bot=False, username="MyUser", first_name="test")
             ),
         )
         ctx.should_call_api(
@@ -182,9 +181,8 @@ async def test_message_event(app: App):
         ctx.should_call_api(
             "get_chat_member",
             {"chat_id": 5566, "user_id": 3344},
-            ChatMember(
-                status="online",
-                user=User(id=3344, is_bot=False, username="MyUser", first_name="test"),
+            ChatMemberMember(
+                user=User(id=3344, is_bot=False, username="MyUser", first_name="test")
             ),
         )
         ctx.should_call_api(
