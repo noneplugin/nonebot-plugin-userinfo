@@ -1,6 +1,4 @@
-from typing import Any, Dict, Optional
-
-from nonebot.adapters.kaiheila import Bot, Message
+from nonebot.adapters.kaiheila import Bot
 from nonebot.adapters.kaiheila.event import (
     ChannelMessageEvent,
     EventMessage,
@@ -11,66 +9,65 @@ from nonebot.adapters.kaiheila.event import (
 from nonebug.app import App
 
 
-def _fake_message_event_args(
-    msg: str, guild_id: Optional[str] = None
-) -> Dict[str, Any]:
-    return {
-        "post_type": "message",
-        "type": 1,
-        "target_id": "6677",
-        "author_id": "3344",
-        "content": "123",
-        "msg_id": "4455",
-        "msg_timestamp": 1234,
-        "nonce": "",
-        "extra": Extra(
-            type=1,
-            guild_id=guild_id,
-            channel_name=None,
-            mention=[],
-            mention_all=False,
-            mention_roles=[],
-            mention_here=False,
-            author=None,
-            body=None,
-            attachments=None,
-            code=None,
-        ),
-        "user_id": "3344",
-        "self_id": "2233",
-        "sub_type": "",
-        "event": EventMessage(
-            type=1,
-            guild_id=guild_id,
-            channel_name=None,
-            content=Message(msg),
-            mention=[],
-            mention_all=False,
-            mention_roles=[],
-            mention_here=False,
-            nav_channels=[],
-            author=User(id="3344"),
-            kmarkdown=None,
-            attachments=None,
-            code=None,
-        ),
-    }
-
-
 def _fake_private_message_event(msg: str) -> PrivateMessageEvent:
     return PrivateMessageEvent(
         channel_type="PERSON",
+        type=9,
+        target_id="6677",
+        content=msg,
+        msg_id="4455",
+        msg_timestamp=1234,
+        nonce="",
+        extra=Extra(type=9),  # type: ignore
+        user_id="3344",
+        sub_type="",
+        event=EventMessage(
+            type=9,
+            author=User(id="3344"),
+            content=msg,  # type: ignore
+            mention=[],
+            mention_roles=[],
+            mention_all=False,
+            mention_here=False,
+            kmarkdown={
+                "raw_content": msg,
+                "mention_part": [],
+                "mention_role_part": [],
+            },  # type: ignore
+        ),
         message_type="private",
-        **_fake_message_event_args(msg),
     )
 
 
 def _fake_channel_message_event(msg: str) -> ChannelMessageEvent:
     return ChannelMessageEvent(
         channel_type="GROUP",
+        type=9,
+        target_id="6677",
+        content=msg,
+        msg_id="4455",
+        msg_timestamp=1234,
+        nonce="",
+        extra=Extra(type=9, guild_id="5566"),  # type: ignore
+        user_id="3344",
+        sub_type="",
+        event=EventMessage(
+            type=9,
+            guild_id="5566",
+            author=User(id="3344"),
+            content=msg,  # type: ignore
+            mention=[],
+            mention_roles=[],
+            mention_all=False,
+            mention_here=False,
+            kmarkdown={
+                "raw_content": msg,
+                "mention_part": [],
+                "mention_role_part": [],
+            },  # type: ignore
+        ),
         message_type="group",
         group_id="6677",
-        **_fake_message_event_args(msg, guild_id="5566"),
     )
 
 

@@ -30,7 +30,7 @@ def _fake_group_message_event(msg: str) -> GroupMessageEvent:
         tenant_key="tenant_key",
         sender_type="user",
     )
-    return GroupMessageEvent.parse_obj(
+    return GroupMessageEvent.model_validate(
         {
             "schema": "2.0",
             "header": header,

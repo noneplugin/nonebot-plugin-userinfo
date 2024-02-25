@@ -17,7 +17,7 @@ try:
                 return UserInfo(
                     user_id=self.bot.self_id,
                     user_name=self.bot.bot_info.app_name,
-                    user_avatar=ImageUrl(url=self.bot.bot_info.avatar_url),
+                    user_avatar=ImageUrl(url=str(self.bot.bot_info.avatar_url)),
                 )
 
             info = None

@@ -5,7 +5,7 @@ from nonebug.app import App
 
 
 def _fake_guild_message_create_event(msg: str) -> GuildMessageCreateEvent:
-    return GuildMessageCreateEvent.parse_obj(
+    return GuildMessageCreateEvent.model_validate(
         {
             "id": 1234,
             "channel_id": 5566,

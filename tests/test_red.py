@@ -148,7 +148,7 @@ async def test_message_event(app: App):
             [
                 {
                     "detail": {
-                        "uid": 4321,
+                        "uid": "4321",
                         "qid": "",
                         "uin": "4321",
                         "nick": "uy/sun",

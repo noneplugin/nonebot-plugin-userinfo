@@ -6,7 +6,7 @@ from nonebug.app import App
 
 
 def _fake_public_message_create_event(msg: str):
-    return PublicMessageCreatedEvent.parse_obj(
+    return PublicMessageCreatedEvent.model_validate(
         {
             "id": 4,
             "type": "message-created",
