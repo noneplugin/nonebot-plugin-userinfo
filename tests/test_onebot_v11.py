@@ -121,13 +121,13 @@ async def test_message_event(app: App):
             user_displayname=None,
             user_remark=None,
             user_avatar=QQAvatar(qq=2233),
-            user_gender="female",
+            user_gender="unknown",
         )
         event = _fake_private_message_event("/bot_user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_stranger_info",
             {"user_id": 2233},
-            {"user_id": 2233, "nickname": "Bot", "sex": "female", "age": 3},
+            {"user_id": 2233, "nickname": "Bot", "sex": "", "age": 3},
         )
         ctx.should_call_send(event, "", True, user_info=user_info)

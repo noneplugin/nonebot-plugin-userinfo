@@ -5,7 +5,7 @@ from nonebot.log import logger
 
 from ..getter import UserInfoGetter, register_user_info_getter
 from ..image_source import QQAvatar
-from ..user_info import UserInfo
+from ..user_info import UserGender, UserInfo
 
 try:
     from nonebot.adapters.onebot.v11 import (
@@ -54,12 +54,20 @@ try:
 
             if info:
                 qq = info["user_id"]
+                sex = info.get("sex")
+                user_gender = (
+                    UserGender.male
+                    if sex == "male"
+                    else UserGender.female
+                    if sex == "female"
+                    else UserGender.unknown
+                )
                 return UserInfo(
                     user_id=str(qq),
                     user_name=info.get("nickname", ""),
                     user_displayname=info.get("card"),
                     user_avatar=QQAvatar(qq=qq),
-                    user_gender=info.get("sex", "unknown"),
+                    user_gender=user_gender,
                 )
 
 except ImportError:
