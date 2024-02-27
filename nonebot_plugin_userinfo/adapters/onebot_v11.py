@@ -70,5 +70,12 @@ try:
                     user_gender=user_gender,
                 )
 
+            if user_id.isdigit() and 5 <= len(user_id) <= 11:
+                return UserInfo(
+                    user_id=user_id,
+                    user_name="",
+                    user_avatar=QQAvatar(qq=int(user_id)),
+                )
+
 except ImportError:
     pass

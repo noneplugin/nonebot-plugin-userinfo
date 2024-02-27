@@ -1,5 +1,6 @@
 from typing import Optional
 
+from nonebot.compat import model_dump
 from nonebot.exception import ActionFailed
 from nonebot.log import logger
 
@@ -95,11 +96,12 @@ try:
                 platform = self.bot.platform
                 impl = self.bot.impl
 
-                if platform == "qq":
+                if platform == "qq" and user_id.isdigit() and 5 <= len(user_id) <= 11:
                     avatar = QQAvatar(qq=int(user_id))
 
                 elif platform == "qqguild" and impl == "nonebot-plugin-all4one":
-                    event_dict = self.event.dict()  # 先转成 dict，这样就算以后用扩展模型也不会出错
+                    # 先转成 dict，这样就算以后用扩展模型也不会出错
+                    event_dict = model_dump(self.event)
                     url = None
                     try:
                         if user_id == str(event_dict["qqguild"]["author"]["id"]):

@@ -19,11 +19,11 @@ def _fake_private_message_event(msg: str) -> PrivateMessageEvent:
         detail_type="private",
         sub_type="",
         message_id="4455",
-        self=BotSelf(platform="qq", user_id="2233"),
+        self=BotSelf(platform="qq", user_id="123456"),
         message=Message(msg),
         original_message=Message(msg),
         alt_message=msg,
-        user_id="3344",
+        user_id="114514",
     )
 
 
@@ -35,11 +35,11 @@ def _fake_group_message_event(msg: str) -> GroupMessageEvent:
         detail_type="group",
         sub_type="",
         message_id="4455",
-        self=BotSelf(platform="qq", user_id="2233"),
+        self=BotSelf(platform="qq", user_id="123456"),
         message=Message(msg),
         original_message=Message(msg),
         alt_message=msg,
-        user_id="3344",
+        user_id="114514",
         group_id="1122",
     )
 
@@ -72,20 +72,20 @@ async def test_message_event(app: App):
         bot = ctx.create_bot(base=Bot, self_id="2233", impl="walle-q", platform="qq")
 
         user_info = UserInfo(
-            user_id="3344",
+            user_id="114514",
             user_name="MyUser",
             user_displayname="",
             user_remark="MyRemark",
-            user_avatar=QQAvatar(qq=3344),
+            user_avatar=QQAvatar(qq=114514),
             user_gender="unknown",
         )
         event = _fake_private_message_event("/user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_user_info",
-            {"user_id": "3344"},
+            {"user_id": "114514"},
             {
-                "user_id": "3344",
+                "user_id": "114514",
                 "user_name": "MyUser",
                 "user_displayname": "",
                 "user_remark": "MyRemark",
@@ -94,20 +94,20 @@ async def test_message_event(app: App):
         ctx.should_call_send(event, "", True, user_info=user_info)
 
         user_info = UserInfo(
-            user_id="3344",
+            user_id="114514",
             user_name="MyUser",
             user_displayname="MyDisplayName",
             user_remark=None,
-            user_avatar=QQAvatar(qq=3344),
+            user_avatar=QQAvatar(qq=114514),
             user_gender="unknown",
         )
         event = _fake_group_message_event("/user_info")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_group_member_info",
-            {"group_id": "1122", "user_id": "3344"},
+            {"group_id": "1122", "user_id": "114514"},
             {
-                "user_id": "3344",
+                "user_id": "114514",
                 "user_name": "MyUser",
                 "user_displayname": "MyDisplayName",
             },
@@ -115,20 +115,20 @@ async def test_message_event(app: App):
         ctx.should_call_send(event, "", True, user_info=user_info)
 
         user_info = UserInfo(
-            user_id="1234",
+            user_id="123123",
             user_name="user",
             user_displayname="displayname",
             user_remark=None,
-            user_avatar=QQAvatar(qq=1234),
+            user_avatar=QQAvatar(qq=123123),
             user_gender="unknown",
         )
-        event = _fake_group_message_event("/user_info 1234")
+        event = _fake_group_message_event("/user_info 123123")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "get_group_member_info",
-            {"group_id": "1122", "user_id": "1234"},
+            {"group_id": "1122", "user_id": "123123"},
             {
-                "user_id": "1234",
+                "user_id": "123123",
                 "user_name": "user",
                 "user_displayname": "displayname",
             },
@@ -136,11 +136,11 @@ async def test_message_event(app: App):
         ctx.should_call_send(event, "", True, user_info=user_info)
 
         user_info = UserInfo(
-            user_id="2233",
+            user_id="123456",
             user_name="Bot",
             user_displayname="",
             user_remark="Remark",
-            user_avatar=QQAvatar(qq=2233),
+            user_avatar=QQAvatar(qq=123456),
             user_gender="unknown",
         )
         event = _fake_private_message_event("/bot_user_info")
@@ -149,7 +149,7 @@ async def test_message_event(app: App):
             "get_self_info",
             {},
             {
-                "user_id": "2233",
+                "user_id": "123456",
                 "user_name": "Bot",
                 "user_displayname": "",
                 "user_remark": "Remark",
