@@ -43,13 +43,17 @@ asyncio_mode = "auto"
 [tool.nonebot]
 plugins = ["nonebot_plugin_userinfo"]
 
-[tool.isort]
-profile = "black"
-skip_gitignore = true
-
 [tool.ruff]
+target-version = "py38"
+
+[tool.ruff.lint]
 select = ["E", "W", "F", "UP", "C", "T", "PYI", "Q"]
 ignore = ["E402", "E501", "E711", "C901", "UP037"]
+
+[tool.pyright]
+pythonVersion = "3.8"
+pythonPlatform = "All"
+typeCheckingMode = "basic"
 
 [tool.coverage.report]
 exclude_lines = [
