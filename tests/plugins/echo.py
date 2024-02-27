@@ -22,5 +22,7 @@ bot_user_info_cmd = on_command("bot_user_info")
 
 
 @bot_user_info_cmd.handle()
-async def _(user_info: Optional[UserInfo] = BotUserInfo(use_cache=False)):  # 获取Bot用户信息
+async def _(
+    user_info: Optional[UserInfo] = BotUserInfo(use_cache=False),
+):  # 获取Bot用户信息
     await bot_user_info_cmd.send("", user_info=user_info)
