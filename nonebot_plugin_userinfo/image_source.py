@@ -64,6 +64,15 @@ class QQAvatar(ImageSource):
         return data
 
 
+class QQAvatarOpenId(ImageSource):
+    appid: str
+    user_openid: str
+
+    async def get_image(self) -> bytes:
+        url = f"https://q.qlogo.cn/qqapp/{self.appid}/{self.user_openid}/100"
+        return await download_url(url)
+
+
 class TelegramFile(ImageSource):
     token: str
     file_path: str

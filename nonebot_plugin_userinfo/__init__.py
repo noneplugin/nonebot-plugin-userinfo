@@ -25,5 +25,6 @@ __plugin_meta__ = PluginMetadata(
         "~discord",
         "~dodo",
         "~satori",
+        "~qq",
     },
 )
