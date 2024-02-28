@@ -69,13 +69,13 @@ requests = ">=2.21,<3.0"
 
 [[package]]
 name = "cachetools"
-version = "5.3.2"
+version = "5.3.3"
 description = "Extensible memoizing collections and decorators"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "cachetools-5.3.2-py3-none-any.whl", hash = "sha256:861f35a13a451f94e301ce2bec7cac63e881232ccce7ed67fab9b5df4d3beaa1"},
-    {file = "cachetools-5.3.2.tar.gz", hash = "sha256:086ee420196f7b2ab9ca2db2520aca326318b68fe5ba8bc4d49cca91add450f2"},
+    {file = "cachetools-5.3.3-py3-none-any.whl", hash = "sha256:0abad1021d3f8325b2fc1d2e9c8b9c9d57b04c3932657a72465447332c24d945"},
+    {file = "cachetools-5.3.3.tar.gz", hash = "sha256:ba29e2dfa0b8b556606f097407ed1aa62080ee108ab0dc5ec9d6a723a007d105"},
 ]
 
 [[package]]
@@ -771,21 +771,17 @@ typing-extensions = ">=4.7.1"
 
 [[package]]
 name = "nonebot-adapter-discord"
-version = "0.1.3"
+version = "0.1.4"
 description = "Discord adapter for nonebot2"
 optional = false
-python-versions = "^3.8"
-files = []
-develop = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "nonebot_adapter_discord-0.1.4-py3-none-any.whl", hash = "sha256:e65f30ec52d826cce31dc481389ca72a81b87338b749b89dde247f81adbd8724"},
+    {file = "nonebot_adapter_discord-0.1.4.tar.gz", hash = "sha256:686024c6449fab1869c554eef96318259d4a5b161a1623e8681968df72cb2b4d"},
+]
 
 [package.dependencies]
-nonebot2 = {git = "https://github.com/nonebot/nonebot2.git"}
-
-[package.source]
-type = "git"
-url = "https://github.com/nonebot/adapter-discord.git"
-reference = "HEAD"
-resolved_reference = "16ff10098cf4f57cb9a2b4ca6ee7b9471625f86c"
+nonebot2 = ">=2.2.1,<3.0.0"
 
 [[package]]
 name = "nonebot-adapter-dodo"
@@ -850,6 +846,23 @@ pydantic = ">=1.10.0,<2.5.0 || >2.5.0,<2.5.1 || >2.5.1,<3.0.0"
 typing-extensions = ">=4.0.0,<5.0.0"
 
 [[package]]
+name = "nonebot-adapter-qq"
+version = "1.4.1"
+description = "QQ adapter for nonebot2"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "nonebot_adapter_qq-1.4.1-py3-none-any.whl", hash = "sha256:dbe59b9559943cb7940f0ff9190ec7428db75be9bc4ba1dbe2cba7ff6e249c23"},
+    {file = "nonebot_adapter_qq-1.4.1.tar.gz", hash = "sha256:45e99d8caaf7e52857cbd2661d07fd1451bf56d63ef49e80b833933a222dcb26"},
+]
+
+[package.dependencies]
+nonebot2 = ">=2.2.0,<3.0.0"
+pydantic = ">=1.10.0,<2.5.0 || >2.5.0,<2.5.1 || >2.5.1,<3.0.0"
+typing-extensions = ">=4.4.0,<5.0.0"
+yarl = ">=1.9.0,<2.0.0"
+
+[[package]]
 name = "nonebot-adapter-red"
 version = "0.9.0"
 description = "Red Protocol Adapter for Nonebot2"
@@ -906,20 +919,22 @@ name = "nonebot2"
 version = "2.2.1"
 description = "An asynchronous python bot framework."
 optional = false
-python-versions = "^3.8"
-files = []
-develop = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "nonebot2-2.2.1-py3-none-any.whl", hash = "sha256:88f2bb456bf90922925bbe489a9effe3b09300f3aa50bfa75ee50d8a83d7330f"},
+    {file = "nonebot2-2.2.1.tar.gz", hash = "sha256:fe57692300571b00724999238545d8d894523460e6835a11b326a2e1cdf98fc4"},
+]
 
 [package.dependencies]
 fastapi = {version = ">=0.93.0,<1.0.0", optional = true, markers = "extra == \"fastapi\" or extra == \"all\""}
 loguru = ">=0.6.0,<1.0.0"
-pydantic = ">=1.10.0,<3.0.0,!=2.5.0,!=2.5.1"
-pygtrie = "^2.4.1"
+pydantic = ">=1.10.0,<2.5.0 || >2.5.0,<2.5.1 || >2.5.1,<3.0.0"
+pygtrie = ">=2.4.1,<3.0.0"
 python-dotenv = ">=0.21.0,<2.0.0"
-tomli = {version = "^2.0.1", markers = "python_version < \"3.11\""}
+tomli = {version = ">=2.0.1,<3.0.0", markers = "python_version < \"3.11\""}
 typing-extensions = ">=4.4.0,<5.0.0"
 uvicorn = {version = ">=0.20.0,<1.0.0", extras = ["standard"], optional = true, markers = "extra == \"quart\" or extra == \"fastapi\" or extra == \"all\""}
-yarl = "^1.7.2"
+yarl = ">=1.7.2,<2.0.0"
 
 [package.extras]
 aiohttp = ["aiohttp[speedups] (>=3.9.0b0,<4.0.0)"]
@@ -928,12 +943,6 @@ fastapi = ["fastapi (>=0.93.0,<1.0.0)", "uvicorn[standard] (>=0.20.0,<1.0.0)"]
 httpx = ["httpx[http2] (>=0.20.0,<1.0.0)"]
 quart = ["Quart (>=0.18.0,<1.0.0)", "uvicorn[standard] (>=0.20.0,<1.0.0)"]
 websockets = ["websockets (>=10.0)"]
-
-[package.source]
-type = "git"
-url = "https://github.com/nonebot/nonebot2.git"
-reference = "HEAD"
-resolved_reference = "d1601bf2fe351626cd94e8e89d9ce734abf0e285"
 
 [[package]]
 name = "nonebug"
@@ -1344,13 +1353,13 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "sniffio"
-version = "1.3.0"
+version = "1.3.1"
 description = "Sniff out which async library your code is running under"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "sniffio-1.3.0-py3-none-any.whl", hash = "sha256:eecefdce1e5bbfb7ad2eeaabf7c1eeb404d7757c379bd1f7e5cce9d8bf425384"},
-    {file = "sniffio-1.3.0.tar.gz", hash = "sha256:e60305c5e5d314f5389259b7f22aaa33d8f7dee49763119234af3755c55b9101"},
+    {file = "sniffio-1.3.1-py3-none-any.whl", hash = "sha256:2f6da418d1f1e0fddd844478f41680e794e6051915791a034ff65e5f100525a2"},
+    {file = "sniffio-1.3.1.tar.gz", hash = "sha256:f4324edc670a0f49750a81b895f35c3adb843cca46f0530f79fc1babb23789dc"},
 ]
 
 [[package]]
@@ -1417,13 +1426,13 @@ files = [
 
 [[package]]
 name = "typing-extensions"
-version = "4.9.0"
+version = "4.10.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "typing_extensions-4.9.0-py3-none-any.whl", hash = "sha256:af72aea155e91adfc61c3ae9e0e342dbc0cba726d6cba4b6c72c1f34e47291cd"},
-    {file = "typing_extensions-4.9.0.tar.gz", hash = "sha256:23478f88c37f27d76ac8aee6c905017a143b0b1b886c3c9f66bc2fd94f9f5783"},
+    {file = "typing_extensions-4.10.0-py3-none-any.whl", hash = "sha256:69b1a937c3a517342112fb4c6df7e72fc39a38e7891a5730ed4985b5214b5475"},
+    {file = "typing_extensions-4.10.0.tar.gz", hash = "sha256:b0abd7c89e8fb96f98db18d86106ff1d90ab692004eb746cf6eda2682f91b3cb"},
 ]
 
 [[package]]
@@ -1830,4 +1839,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "c31a1cb308a8295a5261e7d1c31abca553ee454c720485fec45c405b67ee3285"
+content-hash = "b8a91a8aa5035bf1a2ac6281256bcea0c5aa4d1c5cf5fd8f3067436bdfa4499b"

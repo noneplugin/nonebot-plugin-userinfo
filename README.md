@@ -86,6 +86,7 @@ async def handle(user_info: UserInfo = BotUserInfo()):  # 获取Bot用户信息
 - [x] Discord
 - [x] DoDo
 - [x] Satori
+- [x] QQ
 
 ### 鸣谢
 
