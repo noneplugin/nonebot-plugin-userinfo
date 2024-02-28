@@ -1,4 +1,3 @@
-import uuid
 from typing import Optional
 
 from nonebot.exception import ActionFailed
@@ -52,17 +51,13 @@ try:
             if isinstance(
                 self.event, (C2CMessageCreateEvent, GroupAtMessageCreateEvent)
             ):
-                try:
-                    uuid.UUID(user_id)
-                    return UserInfo(
-                        user_id=user_id,
-                        user_name="",
-                        user_avatar=QQAvatarOpenId(
-                            appid=self.bot.bot_info.id, user_openid=user_id
-                        ),
-                    )
-                except ValueError:
-                    pass
+                return UserInfo(
+                    user_id=user_id,
+                    user_name="",
+                    user_avatar=QQAvatarOpenId(
+                        appid=self.bot.bot_info.id, user_openid=user_id
+                    ),
+                )
 
 except ImportError:
     pass
