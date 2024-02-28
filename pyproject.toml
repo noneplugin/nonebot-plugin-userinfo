@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot_plugin_userinfo"
-version = "0.2.0"
+version = "0.2.1"
 description = "Nonebot2 用户信息获取插件"
 authors = ["meetwq <meetwq@gmail.com>"]
 license = "MIT"
@@ -10,7 +10,7 @@ repository = "https://github.com/noneplugin/nonebot-plugin-userinfo"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-nonebot2 = { version = "^2.0.0", extras = ["fastapi"] }
+nonebot2 = "^2.0.0"
 httpx = ">=0.20.0,<1.0.0"
 cachetools = "^5.0.0"
 emoji = "^2.0.0"
@@ -22,6 +22,7 @@ strenum = "^0.4.8"
 pytest-cov = "^4.0.0"
 pytest-asyncio = "^0.20.0"
 nonebug = "^0.3.0"
+nonebot2 = { version = "^2.0.0", extras = ["fastapi"] }
 
 [tool.poetry.group.adapters]
 optional = true
