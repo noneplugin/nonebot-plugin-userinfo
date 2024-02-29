@@ -64,7 +64,7 @@ async def test_message_event(app: App):
             bot_config=BotConfig(
                 app_id="114", app_secret="514", verification_token="1919810"
             ),
-            bot_info=BotInfo.parse_obj(
+            bot_info=BotInfo.model_validate(
                 {
                     "activate_status": 2,
                     "app_name": "bot",
@@ -89,15 +89,19 @@ async def test_message_event(app: App):
             "contact/v3/users/3344",
             {"method": "GET", "query": {"user_id_type": "open_id"}},
             {
-                "user": {
-                    "open_id": "3344",
-                    "name": "MyUser",
-                    "nickname": "MyNickName",
-                    "gender": 1,
-                    "avatar": {
-                        "avatar_origin": "https://s1-imfile.feishucdn.com/xxxx.png"
-                    },
-                }
+                "code": 0,
+                "msg": "success",
+                "data": {
+                    "user": {
+                        "open_id": "3344",
+                        "name": "MyUser",
+                        "nickname": "MyNickName",
+                        "gender": 1,
+                        "avatar": {
+                            "avatar_origin": "https://s1-imfile.feishucdn.com/xxxx.png"
+                        },
+                    }
+                },
             },
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
@@ -116,15 +120,19 @@ async def test_message_event(app: App):
             "contact/v3/users/1234",
             {"method": "GET", "query": {"user_id_type": "open_id"}},
             {
-                "user": {
-                    "open_id": "1234",
-                    "name": "user",
-                    "nickname": "nickname",
-                    "gender": 2,
-                    "avatar": {
-                        "avatar_origin": "https://s1-imfile.feishucdn.com/xxxx.png"
-                    },
-                }
+                "code": 0,
+                "msg": "success",
+                "data": {
+                    "user": {
+                        "open_id": "1234",
+                        "name": "user",
+                        "nickname": "nickname",
+                        "gender": 2,
+                        "avatar": {
+                            "avatar_origin": "https://s1-imfile.feishucdn.com/xxxx.png"
+                        },
+                    }
+                },
             },
         )
         ctx.should_call_send(event, "", True, user_info=user_info)

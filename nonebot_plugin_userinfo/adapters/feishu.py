@@ -29,7 +29,7 @@ try:
                     resp = await self.bot.call_api(
                         f"contact/v3/users/{user_id}", **params
                     )
-                    info = resp["user"]
+                    info = resp["data"]["user"]
                     break
                 except FeishuAdapterException as e:
                     logger.warning(f"Error calling contact/v3/users/{user_id}: {e}")
