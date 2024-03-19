@@ -6,6 +6,7 @@ from nonebot.log import logger
 from ..getter import UserInfoGetter, register_user_info_getter
 from ..image_source import QQAvatar
 from ..user_info import UserGender, UserInfo
+from ..utils import check_qq_number
 
 try:
     from nonebot.adapters.onebot.v11 import (
@@ -20,6 +21,15 @@ try:
         GroupRequestEvent,
         GroupUploadNoticeEvent,
     )
+
+    def _sex_to_gender(sex: Optional[str]) -> UserGender:
+        return (
+            UserGender.male
+            if sex == "male"
+            else UserGender.female
+            if sex == "female"
+            else UserGender.unknown
+        )
 
     @register_user_info_getter(Bot, Event)
     class Getter(UserInfoGetter[Bot, Event]):
@@ -55,22 +65,15 @@ try:
             if info:
                 qq = info["user_id"]
                 sex = info.get("sex")
-                user_gender = (
-                    UserGender.male
-                    if sex == "male"
-                    else UserGender.female
-                    if sex == "female"
-                    else UserGender.unknown
-                )
                 return UserInfo(
                     user_id=str(qq),
                     user_name=info.get("nickname", ""),
                     user_displayname=info.get("card"),
                     user_avatar=QQAvatar(qq=qq),
-                    user_gender=user_gender,
+                    user_gender=_sex_to_gender(sex),
                 )
 
-            if user_id.isdigit() and 5 <= len(user_id) <= 11:
+            if check_qq_number(user_id):
                 return UserInfo(
                     user_id=user_id,
                     user_name="",
