@@ -1,4 +1,5 @@
 import asyncio
+import re
 
 import httpx
 from nonebot.log import logger
@@ -17,3 +18,7 @@ async def download_url(url: str) -> bytes:
                 logger.warning(f"Error downloading {url}, retry {i}/3: {e}")
                 await asyncio.sleep(3)
     raise NetworkError(f"{url} 下载失败！")
+
+
+def check_qq_number(qq: str) -> bool:
+    return bool(re.match(r"^\d{5,11}$", qq))
