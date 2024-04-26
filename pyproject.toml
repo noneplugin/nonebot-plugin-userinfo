@@ -34,9 +34,9 @@ nonebot-adapter-kaiheila = "^0.3.1"
 nonebot-adapter-telegram = "^0.1.0b17"
 nonebot-adapter-feishu = "^2.4.0"
 nonebot-adapter-red = "^0.9.0"
-nonebot-adapter-discord = "^0.1.4"
+nonebot-adapter-discord = "^0.1.7"
 nonebot-adapter-dodo = "^0.2.0"
-nonebot-adapter-satori = "^0.9.3"
+nonebot-adapter-satori = "^0.11.2"
 nonebot-adapter-qq = "^1.4.1"
 
 [tool.pytest.ini_options]

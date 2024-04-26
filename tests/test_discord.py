@@ -16,6 +16,7 @@ def _fake_guild_message_create_event(msg: str) -> GuildMessageCreateEvent:
                     "username": "MyUser",
                     "discriminator": "0",
                     "avatar": "114514",
+                    "global_name": None,
                 }
             ),
             "content": "",
@@ -72,6 +73,7 @@ async def test_message_event(app: App):
                     "username": "user",
                     "discriminator": "0",
                     "avatar": "123456",
+                    "global_name": None,
                 }
             ),
         )
@@ -93,6 +95,7 @@ async def test_message_event(app: App):
                     "username": "Bot",
                     "discriminator": "0",
                     "avatar": "114514",
+                    "global_name": None,
                 }
             ),
         )

@@ -1,7 +1,7 @@
 from nonebot.adapters.satori import Bot
 from nonebot.adapters.satori.config import ClientInfo
 from nonebot.adapters.satori.event import PublicMessageCreatedEvent
-from nonebot.adapters.satori.models import User
+from nonebot.adapters.satori.models import Member, User
 from nonebug.app import App
 
 
@@ -10,6 +10,7 @@ def _fake_public_message_create_event(
     *,
     user_id: str = "3344",
     user_name: str = "Aislinn",
+    user_nick: str = "aislinn",
     avatar: str = "https://img.kookapp.cn/avatars/xxx",
     platform: str = "kook",
 ):
@@ -33,55 +34,19 @@ def _fake_public_message_create_event(
             "member": {
                 "user": None,
                 "name": None,
-                "nick": user_name,
+                "nick": user_nick,
                 "avatar": None,
                 "joined_at": None,
             },
             "message": {
                 "id": "56163f81-de30-4c39-b4c4-3a205d0be9da",
-                "content": [
-                    {
-                        "type": "text",
-                        "attrs": {"text": msg},
-                        "children": [],
-                        "source": None,
-                    }
-                ],
+                "content": msg,
                 "channel": None,
                 "guild": None,
-                "member": {
-                    "user": {
-                        "id": user_id,
-                        "name": user_name,
-                        "nick": None,
-                        "avatar": avatar,
-                        "is_bot": None,
-                        "username": user_name,
-                        "user_id": user_id,
-                        "discriminator": "4261",
-                    },
-                    "name": None,
-                    "nick": user_name,
-                    "avatar": None,
-                    "joined_at": None,
-                },
-                "user": {
-                    "id": user_id,
-                    "name": user_name,
-                    "nick": None,
-                    "avatar": avatar,
-                    "is_bot": None,
-                    "username": user_name,
-                    "user_id": user_id,
-                    "discriminator": "4261",
-                },
+                "member": None,
+                "user": None,
                 "created_at": None,
                 "updated_at": None,
-                "message_id": "56163f81-de30-4c39-b4c4-3a205d0be9da",
-                "elements": [
-                    {"type": "text", "attrs": {"content": "test"}, "children": []}
-                ],
-                "timestamp": 1700474858446,
             },
             "operator": None,
             "role": None,
@@ -91,11 +56,7 @@ def _fake_public_message_create_event(
                 "nick": None,
                 "avatar": avatar,
                 "is_bot": None,
-                "username": user_name,
-                "user_id": user_id,
-                "discriminator": "4261",
             },
-            "_type": platform,
         }
     )
 
@@ -120,6 +81,7 @@ async def test_message_event(app: App):
         user_info = UserInfo(
             user_id="3344",
             user_name="Aislinn",
+            user_displayname="aislinn",
             user_avatar=ImageUrl(url="https://img.kookapp.cn/avatars/xxx"),
         )
         event = _fake_public_message_create_event("/user_info")
@@ -127,35 +89,48 @@ async def test_message_event(app: App):
         ctx.should_call_send(event, "", True, user_info=user_info)
 
         user_info = UserInfo(
-            user_id="5566",
-            user_name="Aislinn",
+            user_id="5678",
+            user_name=":wq",
+            user_displayname="wq!",
             user_avatar=ImageUrl(url="https://img.kookapp.cn/avatars/xxx"),
         )
-        event = _fake_public_message_create_event("/user_info 5566")
+        event = _fake_public_message_create_event("/user_info 5678")
         ctx.receive_event(bot, event)
         ctx.should_call_api(
             "user_get",
-            {"user_id": "5566"},
+            {"user_id": "5678"},
             User(
-                id="5566",
-                name="Aislinn",
+                id="5678",
+                name=":wq",
                 avatar="https://img.kookapp.cn/avatars/xxx",
             ),
+        )
+        ctx.should_call_api(
+            "guild_member_get",
+            {"guild_id": "5566", "user_id": "5678"},
+            Member(user=None, nick="wq!"),
         )
         ctx.should_call_send(event, "", True, user_info=user_info)
 
         user_info = UserInfo(
             user_id="2233",
             user_name="Bot",
+            user_displayname="bot",
             user_avatar=ImageUrl(url="https://xxx.png"),
         )
         event = _fake_public_message_create_event("/bot_user_info")
         ctx.receive_event(bot, event)
+        ctx.should_call_api(
+            "guild_member_get",
+            {"guild_id": "5566", "user_id": "2233"},
+            Member(user=None, nick="bot"),
+        )
         ctx.should_call_send(event, "", True, user_info=user_info)
 
         user_info = UserInfo(
             user_id="114514",
             user_name="User",
+            user_displayname="user",
             user_avatar=ImageUrl(
                 url="https://thirdqq.qlogo.cn/headimg_dl?dst_uin=114514&spec=640"
             ),
@@ -164,6 +139,7 @@ async def test_message_event(app: App):
             "/user_info",
             user_id="114514",
             user_name="User",
+            user_nick="user",
             avatar="https://thirdqq.qlogo.cn/headimg_dl?dst_uin=114514&spec=640",
             platform="chronocat",
         )
