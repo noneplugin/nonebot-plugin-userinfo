@@ -3,7 +3,8 @@ from pathlib import Path
 
 import anyio
 import emoji
-from pydantic import BaseModel, validator
+from nonebot.compat import PYDANTIC_V2
+from pydantic import BaseModel
 from strenum import StrEnum
 
 from .utils import download_url
@@ -41,11 +42,22 @@ class EmojiStyle(StrEnum):
 class Emoji(ImageSource):
     data: str
 
-    @validator("data")
-    def check_emoji(cls, value: str) -> str:
-        if not emoji.is_emoji(value):
-            raise ValueError("Not a emoji")
-        return value
+    if PYDANTIC_V2:
+        from pydantic import field_validator
+
+        @field_validator("data")
+        def check_emoji(cls, value: str) -> str:
+            if not emoji.is_emoji(value):
+                raise ValueError("Not a emoji")
+            return value
+    else:
+        from pydantic import validator
+
+        @validator("data")
+        def check_emoji(cls, value: str) -> str:
+            if not emoji.is_emoji(value):
+                raise ValueError("Not a emoji")
+            return value
 
     async def get_image(self, style: EmojiStyle = EmojiStyle.Apple) -> bytes:
         url = f"https://emojicdn.elk.sh/{self.data}?style={style}"

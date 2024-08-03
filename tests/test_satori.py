@@ -1,7 +1,7 @@
 from nonebot.adapters.satori import Bot
 from nonebot.adapters.satori.config import ClientInfo
 from nonebot.adapters.satori.event import PublicMessageCreatedEvent
-from nonebot.adapters.satori.models import Member, User
+from nonebot.adapters.satori.models import Login, LoginStatus, Member, User
 from nonebug.app import App
 
 
@@ -69,13 +69,17 @@ async def test_message_event(app: App):
         bot = ctx.create_bot(
             base=Bot,
             self_id="2233",
-            platform="kook",
+            login=Login(
+                user=User(
+                    id="2233",
+                    name="Bot",
+                    avatar="https://xxx.png",
+                ),
+                self_id="2233",
+                platform="kook",
+                status=LoginStatus.ONLINE,
+            ),
             info=ClientInfo(port=5140),
-        )
-        bot._self_info = User(
-            id="2233",
-            name="Bot",
-            avatar="https://xxx.png",
         )
 
         user_info = UserInfo(
