@@ -44,7 +44,7 @@ def _fake_group_message_event(msg: str) -> GroupMessageEvent:
                     create_time="123456",
                     chat_id="1122",
                     message_type="text",
-                    content='{"text":"%s"}' % msg,
+                    content=f'{{"text":"{msg}"}}',
                     mentions=None,
                 ),
             ),

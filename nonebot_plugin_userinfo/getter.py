@@ -1,4 +1,4 @@
-from typing import Generic, List, NamedTuple, Optional, Type, TypeVar
+from typing import Generic, NamedTuple, Optional, TypeVar
 
 from cachetools import TTLCache
 from nonebot.adapters import Bot, Event
@@ -40,16 +40,16 @@ class UserInfoGetter(Generic[B, E]):
 
 
 class UserInfoGetterTuple(NamedTuple):
-    bot: Type[Bot]
-    event: Type[Event]
-    getter: Type[UserInfoGetter]
+    bot: type[Bot]
+    event: type[Event]
+    getter: type[UserInfoGetter]
 
 
-_user_info_getters: List[UserInfoGetterTuple] = []
+_user_info_getters: list[UserInfoGetterTuple] = []
 
 
-def register_user_info_getter(bot: Type[Bot], event: Type[Event]):
-    def wrapper(getter: Type[UserInfoGetter]):
+def register_user_info_getter(bot: type[Bot], event: type[Event]):
+    def wrapper(getter: type[UserInfoGetter]):
         _user_info_getters.append(UserInfoGetterTuple(bot, event, getter))
         return getter
 

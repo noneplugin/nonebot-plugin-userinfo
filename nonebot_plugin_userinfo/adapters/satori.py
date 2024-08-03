@@ -48,9 +48,8 @@ try:
                 user = member.user
 
             if user:
-                member_name = member.name if member else None
                 member_nick = member.nick if member else None
-                user_name = user.name or user.nick or member_name or member_nick or ""
+                user_name = user.name or user.nick or member_nick or ""
 
                 avatar = None
                 if user.avatar:
@@ -58,7 +57,11 @@ try:
                 elif member and member.avatar:
                     avatar = ImageUrl(url=member.avatar)
                 else:
-                    if self.event.platform == "chronocat" and check_qq_number(user_id):
+                    if self.event.platform in (
+                        "onebot",
+                        "red",
+                        "chronocat",
+                    ) and check_qq_number(user_id):
                         avatar = QQAvatar(qq=int(user_id))
 
                 return UserInfo(
@@ -68,7 +71,11 @@ try:
                     user_avatar=avatar,
                 )
 
-            if self.event.platform == "chronocat" and check_qq_number(user_id):
+            if self.event.platform in (
+                "onebot",
+                "red",
+                "chronocat",
+            ) and check_qq_number(user_id):
                 return UserInfo(
                     user_id=user_id,
                     user_name="",
