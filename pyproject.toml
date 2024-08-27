@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot_plugin_userinfo"
-version = "0.2.5"
+version = "0.2.6"
 description = "Nonebot2 用户信息获取插件"
 authors = ["meetwq <meetwq@gmail.com>"]
 license = "MIT"
