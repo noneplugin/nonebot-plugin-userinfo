@@ -36,6 +36,9 @@ try:
         async def _get_info(self, user_id: str) -> Optional[UserInfo]:
             info = None
 
+            if not check_qq_number(user_id):
+                return None
+
             if isinstance(
                 self.event,
                 (
@@ -73,12 +76,11 @@ try:
                     user_gender=_sex_to_gender(sex),
                 )
 
-            if check_qq_number(user_id):
-                return UserInfo(
-                    user_id=user_id,
-                    user_name="",
-                    user_avatar=QQAvatar(qq=int(user_id)),
-                )
+            return UserInfo(
+                user_id=user_id,
+                user_name="",
+                user_avatar=QQAvatar(qq=int(user_id)),
+            )
 
 except ImportError:
     pass

@@ -7,6 +7,7 @@ from nonebot.log import logger
 from ..getter import UserInfoGetter, register_user_info_getter
 from ..image_source import ImageUrl, QQAvatar
 from ..user_info import UserInfo
+from ..utils import check_qq_number
 
 try:
     from nonebot.adapters.onebot.v12 import (
@@ -96,7 +97,7 @@ try:
                 platform = self.bot.platform
                 impl = self.bot.impl
 
-                if platform == "qq" and user_id.isdigit() and 5 <= len(user_id) <= 11:
+                if platform == "qq" and check_qq_number(user_id):
                     avatar = QQAvatar(qq=int(user_id))
 
                 elif platform == "qqguild" and impl == "nonebot-plugin-all4one":
