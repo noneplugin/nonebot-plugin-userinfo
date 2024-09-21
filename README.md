@@ -53,7 +53,7 @@ from nonebot_plugin_userinfo import get_user_info
 
 @matcher.handle()
 async def handle(bot: Bot, event: Event):
-    user_info = get_user_info(bot, event, event.get_user_id())  # 获取当前事件主体用户的信息
+    user_info = await get_user_info(bot, event, event.get_user_id())  # 获取当前事件主体用户的信息
 ```
 
 可以用依赖注入的方式使用：
