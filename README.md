@@ -51,15 +51,19 @@ pip install nonebot_plugin_userinfo
 ```python
 from nonebot_plugin_userinfo import get_user_info
 
+
 @matcher.handle()
 async def handle(bot: Bot, event: Event):
-    user_info = await get_user_info(bot, event, event.get_user_id())  # 获取当前事件主体用户的信息
+    user_info = await get_user_info(
+        bot, event, event.get_user_id()
+    )  # 获取当前事件主体用户的信息
 ```
 
 可以用依赖注入的方式使用：
 
 ```python
 from nonebot_plugin_userinfo import EventUserInfo, UserInfo
+
 
 @matcher.handle()
 async def handle(user_info: UserInfo = EventUserInfo()):  # 获取当前事件主体用户的信息
@@ -68,6 +72,7 @@ async def handle(user_info: UserInfo = EventUserInfo()):  # 获取当前事件�
 
 ```python
 from nonebot_plugin_userinfo import BotUserInfo, UserInfo
+
 
 @matcher.handle()
 async def handle(user_info: UserInfo = BotUserInfo()):  # 获取Bot用户信息
